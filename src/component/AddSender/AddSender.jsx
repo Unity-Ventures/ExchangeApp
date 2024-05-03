@@ -3,7 +3,7 @@ import { PaperProvider, Text, TextInput } from "react-native-paper"
 import TextField from "../../common/TextField/TextField";
 import CommonButton from "../../common/CommonButton/CommonButton";
 
-function AddSender(){
+function AddSender({navigation}){
 
     return (
         <>
@@ -69,7 +69,7 @@ function AddSender(){
                 < CommonButton
                     style={styles.btn}
                     label={'Cancel'}
-                    onPress={()=>{}}
+                    onPress={()=>{navigation.navigate('SenderList')}}
                 />
             </View>
 
