@@ -6,7 +6,7 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { Icon ,MD3Colors  } from 'react-native-paper';
 
 export default function SenderList({navigation}) {
-    const [senderList , setSenderList] = useState([{name: "Prasad Indika" , ContactNo:"0777939393"},{name: "Dilusha Dishani" , ContactNo:"0777939393"},{name: "Prasad Indika" , ContactNo:"0777939393"}]);
+    const [senderList , setSenderList] = useState([{name: "Prasad" , ContactNo:"0777939393"},{name: "Dilusha Dishani" , ContactNo:"0777939393"},{name: "Prasad Indika" , ContactNo:"0777939393"}]);
     
     useEffect(() => {
         console.log("lollll");

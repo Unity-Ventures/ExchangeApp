@@ -6,11 +6,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { PaperProvider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import StaffNavigation from './src/common/Navigation/StaffNavigation/StaffNavigation';
+import AdminNavigation from './src/common/Navigation/AdminNavigation/AdminNavigation';
 
 const Stack = createStackNavigator();
 export default function App() {
 
   const [login, setLogin] = useState(true)
+  const [role,setRole] = useState("admin");
 
   useEffect(() => {
     checkLogin();
@@ -38,7 +40,7 @@ export default function App() {
           {
             login ? (
               <Stack.Navigator>
-                <Stack.Screen name="Drawer" component={StaffNavigation} options={{ headerShown: false }} />
+                <Stack.Screen name="Drawer" component={role === "admin" ? AdminNavigation : StaffNavigation} options={{ headerShown: false }} />
               </Stack.Navigator>
             ) 
             : 

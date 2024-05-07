@@ -9,6 +9,8 @@ import SmplPg from '../../../page/SmplPg/SmplPg';
 import SenderManage from '../../../page/SenderManage/SenderManage';
 import RecieverManage from '../../../page/RecieverManage/RecieverManage';
 import NewOrder from '../../../page/NewOrder/NewOrder';
+import OrderManage from '../../../page/OrderManage/OrderManage';
+import ExchangeCalculator from '../../../page/ExchangeCalculator/ExchangeCalculator';
 
 
 const Drawer = createDrawerNavigator();
@@ -68,10 +70,11 @@ export default function StaffNavigation({ navigation }) {
 
     >
 
-      <Drawer.Screen name="SamplePage" component={SamplePage} />
+      <Drawer.Screen name="Order Manage" component={OrderManage} />
       <Drawer.Screen name="Sender Manage" component={SenderManage} />
       <Drawer.Screen name="Reciever Manage" component={RecieverManage} />
       <Drawer.Screen name="New Order" component={NewOrder} />
+      <Drawer.Screen name="Exchange Calculator" component={ExchangeCalculator} />
       {/* <Drawer.Screen name="Home" options={{
         drawerItemStyle: { display: 'none' },
         headerShown: false

@@ -1,26 +1,30 @@
 import React from 'react'
 import { useState } from 'react';
-import Vehicles from '../../page/Vehicles/Vehicles';
-import MyProfile from '../../page/MyProfile/MyProfile';
 import { createDrawerNavigator, DrawerItem, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-import HomePage from '../../page/HomePage/HomePage';
-import Info from '../../page/Info/Info';
+import SamplePage from '../../../page/SamplePage/SamplePage';
+import SmplPg from '../../../page/SmplPg/SmplPg';
+import SenderManage from '../../../page/SenderManage/SenderManage';
+import RecieverManage from '../../../page/RecieverManage/RecieverManage';
+import NewOrder from '../../../page/NewOrder/NewOrder';
+import OrderManage from '../../../page/OrderManage/OrderManage';
+import ExchangeCalculator from '../../../page/ExchangeCalculator/ExchangeCalculator';
+
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNav({ navigation }) {
+export default function AdminNavigation({ navigation }) {
 
   const [loading, setLoading] = useState(false);
 
   const logout = () => {
-    setLoading(true);
-    setTimeout(() => {
-      removeValue()
-      setLoading(false);
-    }, 1000);
+    // setLoading(true);
+    // setTimeout(() => {
+    //   removeValue()
+    //   setLoading(false);
+    // }, 1000);
 
   };
 
@@ -65,13 +69,19 @@ export default function DrawerNav({ navigation }) {
       }}
 
     >
-      <Drawer.Screen name="Vehicles" component={Vehicles} />
-      <Drawer.Screen name="Profile" component={MyProfile} />
-      <Drawer.Screen name="Info" component={Info} />
-      <Drawer.Screen name="Home" options={{
+
+      <Drawer.Screen name="Order Manage" component={OrderManage} />
+      <Drawer.Screen name="New Order" component={NewOrder} />
+      <Drawer.Screen name="Sender Manage" component={SenderManage} />
+      <Drawer.Screen name="Reciever Manage" component={RecieverManage} />
+      <Drawer.Screen name="Staff Manage" component={RecieverManage} />
+      <Drawer.Screen name="BusinessPartner Manage" component={RecieverManage} />
+      <Drawer.Screen name="Runner Manage" component={RecieverManage} />
+      <Drawer.Screen name="Exchange Rate Manage" component={ExchangeCalculator} />
+      {/* <Drawer.Screen name="Home" options={{
         drawerItemStyle: { display: 'none' },
         headerShown: false
-      }} component={HomePage} />
+      }} component={HomePage} /> */}
 
     </Drawer.Navigator>
   )

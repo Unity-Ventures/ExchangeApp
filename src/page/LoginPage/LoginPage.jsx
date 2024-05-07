@@ -1,7 +1,6 @@
 import { Text, View, ScrollView, Image, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import TextField from '../../common/TextField/TextField';
-import MainFooter from '../../component/MainFooter/MainFooter';
 import DesignButton from '../../common/CommonButton/CommonButton';
 import instance from '../../services/Axious'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -144,10 +143,6 @@ export default function LoginPage({ navigation }) {
                     )}
                 </View>
             </ImageBackground>
-
-            <View>
-                <MainFooter />
-            </View>
         </ScrollView>
     );
 }

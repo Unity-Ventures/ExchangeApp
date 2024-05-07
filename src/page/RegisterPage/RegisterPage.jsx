@@ -1,7 +1,6 @@
 import { Text, View, ScrollView, Image, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import TextField from '../../common/TextField/TextField';
-import MainFooter from '../../component/MainFooter/MainFooter';
 import instance from '../../services/Axious'
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 
@@ -135,10 +134,6 @@ export default function RegisterPage({ navigation }) {
                    
                 </View>
             </ImageBackground>
-
-            <View>
-                <MainFooter />
-            </View>
         </ScrollView>
     );
 }
