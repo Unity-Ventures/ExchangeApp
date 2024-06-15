@@ -14,6 +14,19 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Riyapola-RiyapolaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Riyapola-RiyapolaTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		BBB38E3505384F0DB90AF376 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4B0034331974A00884EE58D /* Roboto-Bold.ttf */; };
+		58B39125ACEA49B4971E19EF /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 005C76752F5A45CA809FF857 /* Roboto-Light.ttf */; };
+		C6CBF57884414FF29441ECCB /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F794CFE6F64D51922BC7F5 /* Roboto-Medium.ttf */; };
+		00AFC556948C45EFA737612D /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCFD182449E4FAB8622F118 /* Roboto-Regular.ttf */; };
+		FA936C859C3B4E30A220D3A3 /* DancingScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92CE79AD435240BDB2B962BE /* DancingScript-Regular.ttf */; };
+		07BB170BAEA247948E1959AE /* DancingScript.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70C682ACFF1940198AEE5503 /* DancingScript.ttf */; };
+		D0B87AF058EA45CD8E2977B7 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7F4A4E2625645D985351D73 /* Dosis-Bold.ttf */; };
+		BA1159FB28D644B3925CF867 /* Dosis-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82F00C8818084F29BF5CFB2E /* Dosis-ExtraBold.ttf */; };
+		068BFD7E25474E20AEDCB843 /* Dosis-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D69B9DC7967B4657B6F3C10D /* Dosis-ExtraLight.ttf */; };
+		5DC4DBD9CB3848FB87705E8D /* Dosis-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D53BB9926F4C4B12AF6B455E /* Dosis-Light.ttf */; };
+		B2CA169557F94FBE9AAA51C5 /* Dosis-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85C6DF9E12794DE0AEB6AE2E /* Dosis-Medium.ttf */; };
+		C88B2B456E1540C18AD4926C /* Dosis-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B095512A4E964F28923D18B3 /* Dosis-Regular.ttf */; };
+		B5BE82076A16405EA86B44B4 /* Dosis-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1690AC4200E45E5A457E066 /* Dosis-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +57,19 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Riyapola/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Riyapola-RiyapolaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Riyapola-RiyapolaTests.release.xcconfig"; path = "Target Support Files/Pods-Riyapola-RiyapolaTests/Pods-Riyapola-RiyapolaTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		D4B0034331974A00884EE58D /* Roboto-Bold.ttf */ = {isa = PBXFileReference; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		005C76752F5A45CA809FF857 /* Roboto-Light.ttf */ = {isa = PBXFileReference; name = "Roboto-Light.ttf"; path = "../assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		26F794CFE6F64D51922BC7F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9FCFD182449E4FAB8622F118 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		92CE79AD435240BDB2B962BE /* DancingScript-Regular.ttf */ = {isa = PBXFileReference; name = "DancingScript-Regular.ttf"; path = "../assets/fonts/DancingScript-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		70C682ACFF1940198AEE5503 /* DancingScript.ttf */ = {isa = PBXFileReference; name = "DancingScript.ttf"; path = "../assets/fonts/DancingScript.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F7F4A4E2625645D985351D73 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; name = "Dosis-Bold.ttf"; path = "../assets/fonts/Dosis-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		82F00C8818084F29BF5CFB2E /* Dosis-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Dosis-ExtraBold.ttf"; path = "../assets/fonts/Dosis-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D69B9DC7967B4657B6F3C10D /* Dosis-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Dosis-ExtraLight.ttf"; path = "../assets/fonts/Dosis-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D53BB9926F4C4B12AF6B455E /* Dosis-Light.ttf */ = {isa = PBXFileReference; name = "Dosis-Light.ttf"; path = "../assets/fonts/Dosis-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		85C6DF9E12794DE0AEB6AE2E /* Dosis-Medium.ttf */ = {isa = PBXFileReference; name = "Dosis-Medium.ttf"; path = "../assets/fonts/Dosis-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B095512A4E964F28923D18B3 /* Dosis-Regular.ttf */ = {isa = PBXFileReference; name = "Dosis-Regular.ttf"; path = "../assets/fonts/Dosis-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E1690AC4200E45E5A457E066 /* Dosis-SemiBold.ttf */ = {isa = PBXFileReference; name = "Dosis-SemiBold.ttf"; path = "../assets/fonts/Dosis-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +148,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				47AE8348185C4BC89295374B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +174,27 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		47AE8348185C4BC89295374B /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				D4B0034331974A00884EE58D /* Roboto-Bold.ttf */,
+				005C76752F5A45CA809FF857 /* Roboto-Light.ttf */,
+				26F794CFE6F64D51922BC7F5 /* Roboto-Medium.ttf */,
+				9FCFD182449E4FAB8622F118 /* Roboto-Regular.ttf */,
+				92CE79AD435240BDB2B962BE /* DancingScript-Regular.ttf */,
+				70C682ACFF1940198AEE5503 /* DancingScript.ttf */,
+				F7F4A4E2625645D985351D73 /* Dosis-Bold.ttf */,
+				82F00C8818084F29BF5CFB2E /* Dosis-ExtraBold.ttf */,
+				D69B9DC7967B4657B6F3C10D /* Dosis-ExtraLight.ttf */,
+				D53BB9926F4C4B12AF6B455E /* Dosis-Light.ttf */,
+				85C6DF9E12794DE0AEB6AE2E /* Dosis-Medium.ttf */,
+				B095512A4E964F28923D18B3 /* Dosis-Regular.ttf */,
+				E1690AC4200E45E5A457E066 /* Dosis-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -243,6 +291,19 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				BBB38E3505384F0DB90AF376 /* Roboto-Bold.ttf in Resources */,
+				58B39125ACEA49B4971E19EF /* Roboto-Light.ttf in Resources */,
+				C6CBF57884414FF29441ECCB /* Roboto-Medium.ttf in Resources */,
+				00AFC556948C45EFA737612D /* Roboto-Regular.ttf in Resources */,
+				FA936C859C3B4E30A220D3A3 /* DancingScript-Regular.ttf in Resources */,
+				07BB170BAEA247948E1959AE /* DancingScript.ttf in Resources */,
+				D0B87AF058EA45CD8E2977B7 /* Dosis-Bold.ttf in Resources */,
+				BA1159FB28D644B3925CF867 /* Dosis-ExtraBold.ttf in Resources */,
+				068BFD7E25474E20AEDCB843 /* Dosis-ExtraLight.ttf in Resources */,
+				5DC4DBD9CB3848FB87705E8D /* Dosis-Light.ttf in Resources */,
+				B2CA169557F94FBE9AAA51C5 /* Dosis-Medium.ttf in Resources */,
+				C88B2B456E1540C18AD4926C /* Dosis-Regular.ttf in Resources */,
+				B5BE82076A16405EA86B44B4 /* Dosis-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,19 +8,24 @@ export default function TextField({value,onChange , label, type, disabled}) {
        <TextInput
        label={label}
        mode='outlined'
-       outlineColor='#44357F'
-       activeOutlineColor='#44357F'
+       outlineColor='#e1e4e6'
+       activeOutlineColor='#bbbcbd'
        value={value}
        onChangeText={onChange}
        style={styles.styl}
        secureTextEntry={type === 'password'}
        disabled={disabled}
+       textColor='gray'
+       contentStyle={{fontFamily:'Dosis-Regular',fontSize:16}}
+       outlineStyle={{borderRadius:7}}
+       
     />
   )
 }
 
 const styles = StyleSheet.create({
   styl: {
-     backgroundColor:'white'
+     backgroundColor:'white',
+     height: 45,
   },
 });

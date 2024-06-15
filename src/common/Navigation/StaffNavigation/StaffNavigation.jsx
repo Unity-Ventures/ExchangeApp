@@ -10,7 +10,7 @@ import SenderManage from '../../../page/SenderManage/SenderManage';
 import RecieverManage from '../../../page/RecieverManage/RecieverManage';
 import NewOrder from '../../../page/NewOrder/NewOrder';
 import OrderManage from '../../../page/OrderManage/OrderManage';
-import ExchangeCalculator from '../../../page/ExchangeCalculator/ExchangeCalculator';
+import ExchangeCalculator from '../../../page/ExchangeRates/ExchangeRates';
 
 
 const Drawer = createDrawerNavigator();

@@ -1,86 +1,125 @@
-import React, { useState } from 'react'
-import { View ,StyleSheet } from "react-native"
-import { PaperProvider, Text } from "react-native-paper"
+import React, { useEffect, useState } from 'react'
+import { View ,StyleSheet ,ScrollView, TouchableOpacity, FlatList} from "react-native"
+import { Button, PaperProvider, Text } from "react-native-paper"
 import TextField from '../../common/TextField/TextField'
 import CommonButton from '../../common/CommonButton/CommonButton'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import instance from '../../services/Axious'
 
-export default function SenderDetails({onNext}) {
+export default function SenderDetails({onNext,selectedClient,isClientNew}) {
 
-    const [senderList , setSenderList] = useState([{name: "Prasad" , ContactNo:"0777939393"},{name: "Dilusha Dishani" , ContactNo:"0777939393"},{name: "Prasad Indika" , ContactNo:"0777939393"}]);
+    const [senderList , setSenderList] = useState([]);
+    const [isNew , setIsNew] = useState(isClientNew)
+    const [client,setClient] = useState(selectedClient);
 
-    const [isNew , setIsNew] = useState(false)
+    const [name,setName] = useState('');
+    const [nic,setNic] = useState('');
+    const [address,setAddress] = useState('');
+    const [contactNo,setContactNo] = useState('');
+    const [country,setCountry] = useState('');
+
+    const isValid = isNew ? name && nic && address && contactNo && country : client ? true : false;
+ 
+    const ClientItem = ({val})=>{
+        return(
+            <TouchableOpacity onPress={()=>{setClient(val)}}>
+                <View style={{marginHorizontal:10,marginTop:10,backgroundColor:'#f0eee9',padding:8,borderRadius:7}}>
+            <Text style={styles.listSenderName}>{val.firstName}</Text>
+            <View style={{justifyContent:'space-between'}}>
+                <View>
+                    <Text style={styles.listSenderName}>{val.contact}</Text>
+                </View>
+            
+
+            </View>
+        </View>
+            </TouchableOpacity>
+        )
+    }
+
+
+    const getAllCustomers = ()=>{
+        instance.get('/customer')
+            .then(function (response){
+                setSenderList(response.data)
+                console.log(response.data);
+            })
+            .catch(function (error){
+                console.log(error);
+            });
+    }
+
+    useEffect(()=>{
+            getAllCustomers();
+      },[]);
 
 
   return (
     <>
         <View style={styles.titleContainer}>
-            <Text style={styles.title}>Sender Details</Text>
-            < CommonButton
-                style={styles.btn}
-                label={isNew? 'Search' : 'New Sender'}
-                onPress={()=>{
-                    if(isNew){
-                        setIsNew(false)
-                    }else{
-                        setIsNew(true)
-                    }
-                }}
-            />
+            <Text style={{fontSize:24,color:"#4b5052",fontFamily:'Dosis-Regular'}}>
+                {isNew ? "Client Details" : client ?client.firstName : "Select Client"}
+            </Text>
+            <TouchableOpacity onPress={()=>{
+                if(isNew){
+                    setIsNew(false)
+                }else{
+                    setIsNew(true)
+                }
+            }}>
+                {isNew ? <AntDesign name="search1" size={25} color="black"/> : <AntDesign name="adduser" size={25} color="black"/>}
+                 
+            </TouchableOpacity>
         </View>
 
+
+        <View style={{height:"83%"}}>
         {isNew? 
-                <>
-                                <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>First Name *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
+                <View style={{marginTop:5}}> 
+                    <View style={styles.fieldContainer}>
+                        <Text style={styles.fieldName}>Full Name</Text>
+                        <TextField
+                            //value={}
+                            onChange={(val)=>{setName(val)}}
+                        />
+                    </View>
 
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>Last Name *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
+                    <View style={styles.fieldContainer}>
+                        <Text style={styles.fieldName}>NIC </Text>
+                        <TextField
+                            //value={}
+                            onChange={(val)=>{setNic(val)}}
+                        />
+                    </View>
 
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>NIC *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
+                    <View style={styles.fieldContainer}>
+                        <Text style={styles.fieldName}>Contact No </Text>
+                        <TextField
+                            //value={}
+                            onChange={(val)=>{setContactNo(val)}}
+                        />
+                    </View>
 
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>Contact No *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
+                    <View style={styles.fieldContainer}>
+                        <Text style={styles.fieldName}>Address</Text>
+                        <TextField
+                            //value={}
+                            onChange={(val)=>{setAddress(val)}}
+                        />
+                    </View>
 
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>Address *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
+                    <View style={styles.fieldContainer}>
+                        <Text style={styles.fieldName}>Country</Text>
+                        <TextField
+                            //value={}
+                            onChange={(val)=>{setCountry(val)}}
+                        />
+                    </View>
 
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>Country *</Text>
-                <TextField
-                    //value={}
-                    //onChange={}
-                />
-            </View>
-                </>
+                </View>
             :
                 <>
-                    <View style={styles.fieldContainer}>
+                    <View style={{marginHorizontal:8}}>
                         <TextField
                             label={'Search Sender'}
                             //value={}
@@ -88,43 +127,49 @@ export default function SenderDetails({onNext}) {
                         />
                     </View>
 
+                    {/* <ScrollView style={{marginVertical:8}}>
                     {senderList.map((val)=>(
-                        <View style={{margin:10,backgroundColor:'#44357F',padding:3,borderRadius:7}}>
+                        <View style={{marginHorizontal:10,marginTop:10,backgroundColor:'#f0eee9',padding:8,borderRadius:7}}>
                             <Text style={styles.listSenderName}>{val.name}</Text>
                             <View style={{justifyContent:'space-between'}}>
                                 <View>
                                     <Text style={styles.listSenderName}>0777-576894</Text>
                                 </View>
-                                <View>
-                                    {/* <Icon
-                                        source="delete"
-                                        color={MD3Colors.error50}
-                                        size={20}
-                                    /> */}
-                                </View>
+                            
 
                             </View>
                         </View>
                     ))}
-                
+                    </ScrollView> */}
+                     <FlatList
+                        data={senderList}
+                        renderItem={({item})=> <ClientItem val={item}/>}
+                    />
                 </>
         }
+        </View>
 
-
-            <View style={styles.buttonContainer}>
-                < CommonButton
-                    style={styles.btn}
-                    label={'Back'}
-                    //onPress={()=>{}}
-                />
-
+        <View style={styles.buttonContainer}>
                 < CommonButton
                     style={styles.btn}
                     label={'Next'}
-                    onPress={()=>{onNext("reciever")}}
+                    onPress={()=>{
+                        const newClient = {
+                            name: name,
+                            address:address,
+                            nic:nic,
+                            contactNo:contactNo,
+                            country:country
+                        }
+                        onNext("reciever",isNew ? newClient : client ,isNew)
+                    }}
+                    disabled={!isValid}
                 />
-            </View>     
-        </>
+        </View>
+
+
+                 
+    </>
   )
 }
 
@@ -132,26 +177,32 @@ const styles = StyleSheet.create({
     titleContainer: {
         //flex:1,
         flexDirection:'row',
-        justifyContent:'space-between',     
-        margin:15
+        justifyContent:'space-between',
+        alignItems:"center",   
+        paddingVertical:3,
+        paddingHorizontal:8,
+        height:"7%",
+        //borderWidth:2
     },
     title: {
         color: '#44357F',
         fontSize: 24,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         textAlign: 'center',
+
     },
     fieldName: {
-        color: 'black',
+        color: '#73716a',
         fontSize: 15,
-        fontWeight: 'bold',
+        fontFamily:"Dosis-Regular",
+        marginBottom:4
     },
     fieldContainer: {
-       margin:10
+       margin:8
     },
     btn: {
-        borderRadius: 7,
-        width: 125,
+        borderRadius: 8,
+        width: "100%",
         height:50,
         fontSize: 18,
         textAlign:'center',
@@ -159,7 +210,13 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection:'row',
-        justifyContent:'space-around',
-        margin:10
+        justifyContent:'center',
+        alignItems: "center",
+        height:"10%",
+        //borderWidth:2,
+        paddingHorizontal:7
+    },
+    listSenderName: {
+       color:'#919190'
     },
 });

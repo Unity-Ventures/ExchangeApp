@@ -1,44 +1,134 @@
-import React from 'react'
-import { View ,StyleSheet } from "react-native"
-import { PaperProvider, Text } from "react-native-paper"
+import React, { useState } from 'react'
+import { View ,StyleSheet, TouchableOpacity } from "react-native"
+import { PaperProvider, Text,Button } from "react-native-paper"
 import TextField from '../../common/TextField/TextField'
 import CommonButton from '../../common/CommonButton/CommonButton'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import DropdownList from '../../common/DropdownList'
 
-export default function OrderDetails({onNext}) {
+export default function OrderDetails({onNext,placeOrder}) {
+
+    const [fromCurrency,setFromCurrency] = useState({});
+    const [toCurrency,setToCurrency] = useState({});
+    const [rate,setRate] = useState('300');
+
+    const [sendAmmount,setSendAmmount] = useState('');
+    const [receiveAmmount,setReceiveAmmount] = useState('');
+    const [serviceCharge,setServiceCharge] = useState('');
+    const [description,setDescription] = useState('');
+
+    const [allCurenncy,setAllCurrency] = useState([
+        { label: 'USD', value: '1' },
+        { label: 'CAD', value: '2' },
+        { label: 'LKR', value: '3' },
+        { label: 'ERO', value: '4' },
+    ])
+
+
   return (
     <>
         <View style={styles.titleContainer}>
-            <Text style={styles.title}>Order Details</Text>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <TouchableOpacity onPress={()=>{onNext("reciever")}}>
+                    <AntDesign name="leftcircleo" size={25} color="black"/>
+                </TouchableOpacity>
+                <Text style={{fontSize:24,color:"#4b5052",fontFamily:'Dosis-Regular',marginLeft:8}}>
+                    Amount Details
+                </Text>
+            </View>
+            
         </View>
 
-        <View style={styles.fieldContainer}>
-            <Text style={styles.fieldName}>First Name *</Text>
-            <TextField
-                //value={}
-                //onChange={}
-            />
+        <View style={{height:"83%"}}>
+        <>
+               
+            <View style={styles.fieldContainer}>
+                <Text style={styles.fieldName}>Select Exchange Currency</Text>
+                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+                    <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
+                        setFromCurrency(item);
+                    }}/>
+                    <Text style={styles.fieldName}> to </Text>
+                    <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
+                        setToCurrency(item);
+                    }}/>
+                </View>
+                <Text style={styles.fieldName}>{1 + " " + fromCurrency.label + " = " + rate + " " + toCurrency.label}</Text>
+            </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Amount</Text>
+                    <TextField
+                        onChange={(val)=> {
+                            setSendAmmount(val);
+                            const recAmmout = Number(rate) * Number(val);
+                            setReceiveAmmount(recAmmout);
+                        }}
+                    />
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Service Charge</Text>
+                    <TextField
+                        //value={}
+                        onChange={ val => setServiceCharge(val)}
+                    />
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Total Payble amount</Text>
+                    <Text style={styles.fieldName}>00.00</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Reciever Amount</Text>
+                    <Text style={styles.fieldName}>{receiveAmmount}</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Description</Text>
+                    <TextField
+                        //value={}
+                        onChange={(val)=> setDescription(val)}
+                    />
+                </View>
+            </>
         </View>
 
         <View style={styles.buttonContainer}>
             < CommonButton
                 style={styles.btn}
-                label={'Back'}
-                onPress={()=>{onNext("reciever")}}
-            />
-
-            < CommonButton
-                style={styles.btn}
                 label={'Place Order'}
-                onPress={()=>{}}
+                onPress={()=>{
+                    const orderDetails = {
+                        sendCurrency : fromCurrency.label,
+                        recCurrency : toCurrency.label,
+                        rate: rate,
+                        sendAmount: sendAmmount,
+                        recAmmount: receiveAmmount,
+                        servCharge:serviceCharge,
+                        desc:description
+                    }
+
+                    placeOrder(orderDetails);
+                }}
             />
-    </View>    
+        </View>
+
     </>
   )
 }
 
 const styles = StyleSheet.create({
     titleContainer: {
-       marginVertical:15
+        //flex:1,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:"center",   
+        paddingVertical:3,
+        paddingHorizontal:8,
+        height:"7%",
+        //borderWidth:2
     },
     title: {
         color: '#44357F',
@@ -47,16 +137,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     fieldName: {
-        color: 'black',
+        color: '#73716a',
         fontSize: 15,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
+        fontFamily:"Dosis-Regular"
     },
     fieldContainer: {
        margin:10
     },
     btn: {
-        borderRadius: 7,
-        width: 125,
+        borderRadius: 8,
+        width: "100%",
         height:50,
         fontSize: 18,
         textAlign:'center',
@@ -64,7 +155,13 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection:'row',
-        justifyContent:'space-around',
-        margin:10
+        justifyContent:'center',
+        alignItems: "center",
+        height:"10%",
+        //borderWidth:2,
+        paddingHorizontal:7
     },
+    listSenderName: {
+        color:'#919190'
+     },
 });
