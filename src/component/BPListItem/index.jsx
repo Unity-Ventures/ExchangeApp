@@ -8,10 +8,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function BPListItem({item,onViewClick}) {
   
     return(
-      <>
+      <><TouchableOpacity onPress={onViewClick}>
+
+      
         <View style={{margin:8,backgroundColor:'#f7f7f7',borderRadius:7,padding:10,elevation:3}}>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{fontSize:18,color:'#636363',fontFamily:'Dosis-SemiBold'}}>Partner Name</Text>
+              <Text style={{fontSize:18,color:'#636363',fontFamily:'Dosis-SemiBold'}}>{item.fistName}</Text>
               <Text style={styles.text}>0770993838</Text>
           </View>
           
@@ -30,7 +32,7 @@ export default function BPListItem({item,onViewClick}) {
                 </View>
           
         </View>
-      </>
+        </TouchableOpacity></>
     )
   }
 

@@ -1,24 +1,55 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react'
 import { Text, View,StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { Modal,Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
 import TextField from '../../common/TextField/TextField';
 import CommonButton from '../../common/CommonButton/CommonButton';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import instance from '../../services/Axious';
 
 
 export default function ModalOrderItemAssign({visible = false , onClose,order}) {
 
-    const [bPartnerList , setBPartnerList] = React.useState([{name:'Prasad',contact:'077775551',country:'Srilanka'},{name:'Prasad',contact:'077775551',country:'Srilanka'}]);
-    const [selectedPartner,setSelectedPartner] = React.useState({});
+    const [bPartnerList , setBPartnerList] = useState([]);
+    const [bPartnerList2 , setBPartnerList2] = useState([]);
+    const [selectedPartner,setSelectedPartner] = useState(null);
 
+    const isValid = selectedPartner ? true : false
+
+    const loadPartners = ()=>{
+        instance.get('/user/get_all_partner')
+        .then(function (response){
+            setBPartnerList(response.data)
+            setBPartnerList2(response.data)
+        })
+    }
+
+    const assignPartner = ()=>{
+
+        const assignDetails = {
+            employeeId:selectedPartner.employeeId,
+            orderId: order.orderId,
+            runnerAmount: order.receiveAmount
+        }
+
+        console.log(assignDetails);
+        instance.post('/payment_details',assignDetails)
+                .then(function (response){
+                    console.log("done");
+                    instance.put(`/order/updateState/${order.orderId}`,{status:'assign'}).then(function (res){console.log("Succ");})
+                    onClose();
+                })
+                .catch(function (error){
+                    console.log("errorrr");
+                })
+    }
 
     const BPartnerListItem = ({item})=>{
         return(
             <><TouchableOpacity onPress={()=>{setSelectedPartner(item)}}>
                  <View style={{margin:8,backgroundColor:'#f7f7f7',borderRadius:7,padding:10,elevation:2}}>
                     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={styles.text2}>{item.name}</Text>
+                        <Text style={styles.text2}>{item.fistName}</Text>
                         <Text style={styles.text}>{item.contact}</Text>
                     </View>
           
@@ -30,7 +61,17 @@ export default function ModalOrderItemAssign({visible = false , onClose,order}) 
         )
     }
 
-    const [assignBP, setAssignBP] = React.useState([{name:"Prasad"},{name : "Kasun"}]);
+    const searchPartner = (search)=>{
+        console.log(search);
+        const filteredArr = bPartnerList2.filter(obj =>
+            Object.values(obj).some(value => String(value).includes(search))
+          );
+        setBPartnerList(filteredArr);
+    }
+
+    useEffect(()=>{
+        loadPartners();
+    },[])
 
 
   return (
@@ -51,8 +92,8 @@ export default function ModalOrderItemAssign({visible = false , onClose,order}) 
                 </View>
 
                 <View style={{marginTop:2}}>
-                    <View style={styles.txtConainer}><Text style={styles.text2} >Ref No     -</Text><Text style={styles.text2} >12233039 </Text></View>
-                    <View style={styles.txtConainer}><Text style={styles.text2} >Amount   -</Text><Text style={styles.text2} >100,000.00 </Text></View>
+                    <View style={styles.txtConainer}><Text style={styles.text2} >Ref No     -</Text><Text style={styles.text2} >{order?.referenceNo} </Text></View>
+                    <View style={styles.txtConainer}><Text style={styles.text2} >Amount   -</Text><Text style={styles.text2} >{order?.receiveAmount}</Text></View>
                 </View>
 
             </View>
@@ -60,13 +101,14 @@ export default function ModalOrderItemAssign({visible = false , onClose,order}) 
             <View style={{height:"80%" , backgroundColor: "#ffffff", borderRadius:12, margin:"2%"}}>
                 
                 <View style={{margin:10}}>
-                    <Text style={{color: '#636363',fontSize: 25,fontFamily:'Dosis-Regular'}}>{selectedPartner.name}</Text>
+                    <Text style={{color: '#636363',fontSize: 25,fontFamily:'Dosis-Regular'}}>{selectedPartner?.fistName}</Text>
                 </View>
                 <View style={{marginHorizontal:8}}>
                     <TextField
                         label={'Search'}
-                        //value={}
-                        //onChange={}
+                        onChange={(val)=>{
+                            searchPartner(val)
+                        }}
                     />
                 </View>
 
@@ -80,74 +122,20 @@ export default function ModalOrderItemAssign({visible = false , onClose,order}) 
                     />
                     
                 </SafeAreaView>
+
+                <View style={styles.fieldContainer}>
+                    < CommonButton
+                    style={styles.btn}
+                    label={'Assign'}
+                    onPress={assignPartner}
+                    disabled={!isValid}
+                />
+                    </View>
             </View>
 
 
         </View>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* <View>
-                <View style={styles.txtConainer}><Text style={styles.text} >Ref No     -</Text><Text style={styles.text} >12233039 </Text></View>
-                <View style={styles.txtConainer}><Text style={styles.text} >Sender     -</Text><Text style={styles.text} >Kamal Perera </Text></View>
-                <View style={styles.txtConainer}><Text style={styles.text} >Amount   -</Text><Text style={styles.text} >100,000.00 </Text></View>
-                <View style={styles.txtConainer}><Text style={styles.text} >Pending   -</Text><Text style={styles.text} >50,000.00 </Text></View>
-            </View>
-
-
-            <View style={{marginVertical:15}}>
-                <TextField
-                    label={'Business Partner'}
-                />
-                <TextField
-                    label={'Assign Amount'}
-                />
-                <Button
-                    buttonColor='#0376ab'
-                    textColor='white'
-                    style={{marginTop:10,width:100,alignSelf:'flex-end'}}
-                >
-                    + Add
-                </Button>
-            </View>
-
-            <View style={{borderColor:'#838485' , borderRadius:7 ,borderWidth:2,padding:10}}>
-                {
-                    assignBP.map((item)=>(
-                        <AssignItem item={item}/>
-                    ))
-                }
-            </View>
-            <View style={styles.buttonContainer}>
-                
-                < CommonButton
-                    style={styles.btn}
-                    label={'Confirm And Assign'}
-                    //onPress={()=>{onNext("reciever")}}
-                />
-            </View>    */}
         </Modal>
     </Portal>
   )
@@ -171,12 +159,13 @@ const styles = StyleSheet.create({
         fontFamily:'Dosis-Bold'
     },
     btn: {
-        borderRadius: 7,
-        width: 125,
+        borderRadius: 8,
+        width: "100%",
         height:50,
         fontSize: 18,
         textAlign:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        alignSelf:''
     },
     buttonContainer: {
         flexDirection:'row',

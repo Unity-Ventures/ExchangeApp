@@ -10,7 +10,7 @@ const data = [
     { label: 'ERO', value: '4' },
   ];
 
-  const DropdownList = ({onChange,allCurrency}) => {
+  const DropdownList = ({onChange,allCurrency,placeholder="Currency",search=false}) => {
     const [value, setValue] = useState(null);
 
     const renderItem = item => {
@@ -37,11 +37,11 @@ const data = [
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={allCurrency}
-        //search
+        search = {search}
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder="Currency"
+        placeholder={placeholder}
         searchPlaceholder="Search..."
         value={value}
         // onChange={item => {
@@ -52,6 +52,7 @@ const data = [
         //     <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
         // )}
         renderItem={renderItem}
+        
       />
     );
   };

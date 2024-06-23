@@ -2,8 +2,25 @@ import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { removeData } from '../../utils/storage/Storage'
 import Iconic from 'react-native-vector-icons/Ionicons'
+import { CommonActions } from '@react-navigation/native'
 
 export default function MoreMenuItems({navigation}) {
+
+  const handleLogout = () => {
+
+    removeData("token");
+    removeData("role");
+
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      })
+    );
+  }
+
+
+
   return (
 
     <>
@@ -19,11 +36,7 @@ export default function MoreMenuItems({navigation}) {
                 <Text style={{fontSize:25,color:'white'}}>Reports</Text>
             </View>
         </TouchableOpacity> */}
-        <TouchableOpacity onPress={()=>{
-          removeData("token");
-          removeData("role");
-          navigation.navigate("Login");
-        }}>
+        <TouchableOpacity onPress={()=>{handleLogout()}}>
             <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',margin:10,padding:10,borderRadius:10,elevation:3}}>
             <Iconic name="log-out" size={25} color="black" />
                 <Text style={{fontSize:20,color:'black',fontFamily:'Dosis-Bold',marginLeft:5}}> Logout</Text>

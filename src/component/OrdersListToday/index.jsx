@@ -1,47 +1,58 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, Text } from 'react-native'
+import { FlatList, SafeAreaView, Text ,Alert } from 'react-native'
 import { View ,StyleSheet } from "react-native"
 import OrderItem from '../OrderItem/OrderItem'
-import OrderItemViewModal from '../OrderItemViewModal/OrderItemViewModal'
 import TextField from '../../common/TextField/TextField';
 import { PaperProvider } from 'react-native-paper';
-import ModalOrderItemAssign from '../ModalOrderItemAssign';
-import { setupMicrotasks } from 'react-native-reanimated/lib/typescript/reanimated2/threads';
-import ModalAssignDetails from '../ModalOrderAssignedDetils';
 import instance from '../../services/Axious'
 import { useFocusEffect } from '@react-navigation/native'
 
 export default function OrdersListToday({search,onViewClick}) {
-  const [visible, setVisible] = React.useState(false);
-  const [assignModalVisible,setAssignModalVisible] = useState(false);
-  const [assignDetailsVisible,setAssignDetailsVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState({});
 
   const [orders,setOrders] = useState([]);
+  const [ordersSerch,setOrdersSerch] = useState([])
 
   const getAllOrders = ()=>{
     instance.get('/order').then(function (response){
       if(search === 'new'){
         const odrs = response.data.filter(order => order.status === 'pending');
         setOrders(odrs);
+        setOrdersSerch(odrs);
       }else if(search === 'ongoing'){
         const odrs = response.data.filter(order => order.status === 'assign');
         setOrders(odrs);
+        setOrdersSerch(odrs);
       }else if(search === 'complete'){
         const odrs = response.data.filter(order => order.status === 'complete');
         setOrders(odrs);
+        setOrdersSerch(odrs);
       }else{
         setOrders(response.data);
+        setOrdersSerch(odrs);
       }
     }).catch(function (error){
       console.log(error);
     })
   }
 
- 
-  // useEffect(()=>{
-  //  getAllOrders();
-  // },[])
+  function searchOrders(orders, searchString) {
+    function searchInObject(obj, searchString) {
+      for (let key in obj) {
+        if (typeof obj[key] === 'object') {
+          if (searchInObject(obj[key], searchString)) {
+            return true;
+          }
+        } else {
+          if (String(obj[key]).toLowerCase().includes(searchString.toLowerCase())) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  
+    return orders.filter(order => searchInObject(order, searchString));
+  }
   
   useFocusEffect(
     React.useCallback(() => {
@@ -61,7 +72,10 @@ export default function OrdersListToday({search,onViewClick}) {
                     <TextField
                         label={'Search Orders'}
                         //value={}
-                        //onChange={}
+                        onChange={(val)=>{
+                          const matchedOrders = searchOrders(ordersSerch, val);
+                          setOrders(matchedOrders);
+                      }}
                     />
                 </View>
 
@@ -72,36 +86,34 @@ export default function OrdersListToday({search,onViewClick}) {
                             <OrderItem 
                                 order={item} 
                                 onViewClick={(val)=>{
-                                    onViewClick(val,item)  
+                                    if(val === 'confirm'){
+
+
+                                      Alert.alert('Order Complete', 'Are you Sure to confirm the completion of order', [
+                                        {
+                                          text: 'Cancel',
+                                          onPress: () => console.log('Cancel Pressed'),
+                                          style: 'cancel',
+                                        },
+                                        {text: 'Yes', onPress: () => {
+                                          instance.put(`/order/updateState/${item.orderId}`,{status:'complete'})
+                                                  .then(function (res){console.log("Succ");})
+                                                  .catch(function (err){console.log(err);})
+                                        }},
+                                      ]);
+
+
+
+                                    }else{
+                                      onViewClick(val,item)
+                                    }
+                                      
                                 }}
                             />}
                     />
                 </SafeAreaView>
                 </View>
-                {/* {visible && 
-         <OrderItemViewModal
-            visible={visible}
-            order={selectedOrder}
-            onClose={()=>{setVisible(false)}}
-         />
-         }
-
-         {assignModalVisible &&
-            <ModalOrderItemAssign
-              visible={assignModalVisible}
-              item={selectedOrder}
-              onClose={()=>setAssignModalVisible(false)}
-            />
-
-         }
-
-         {assignDetailsVisible && 
-           <ModalAssignDetails
-            visible={assignDetailsVisible}
-            onClose={()=>{setAssignDetailsVisible(false)}}
-           />
-         } */}
-
+              
             </PaperProvider>
         
         

@@ -17,11 +17,15 @@ export default function NewOrder({navigation}) {
     const [isNewClent,setIsNewClent] = useState(false);
     const [isNewReciever,setIsNewReciever] = useState(false)
 
- 
-    
+    const getDate = ()=>{
+      const today = new Date();
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      const formattedDate = today.toLocaleDateString('en-US', options).replace(',', '');
+      return formattedDate
+    }
 
     const placeOrder = (orderDetails)=>{
-
+    
       let order = {}
       if(isNewClent && isNewReciever){
           order = {
@@ -58,12 +62,10 @@ export default function NewOrder({navigation}) {
           customerId:client.customerId,
           accountId:account.accountId
         }
-        console.log(order);
       }
 
       instance.post('/order',order)
               .then(function (response){
-                console.log(response.data);
                 navigation.navigate("Transacations");
               })
               .catch(function (error){
@@ -74,7 +76,7 @@ export default function NewOrder({navigation}) {
     }
 
     useEffect(() => {
-      console.log("dsdsdsdsds");
+      
     }, [])
 
   return (

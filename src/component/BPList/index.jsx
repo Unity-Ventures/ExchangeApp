@@ -10,11 +10,32 @@ import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import instance from '../../services/Axious';
+import { useNavigation } from '@react-navigation/native';
 
-export default function BPList({navigation}) {
 
+export default function BPList({setPartner}) {
+
+    const navigation = useNavigation();
     const [bpList , setbpList] = useState([{name: "Prasad Indika" , ContactNo:"0777939393"},{name: "Dilusha Dishani" , ContactNo:"0777939393"},{name: "Prasad Indika" , ContactNo:"0777939393"}]);
     const [visible,setVisible] = useState(false);
+
+    const getAllPartners = ()=>{
+
+        instance.get('/user/get_all_partner')
+        .then(function (response){
+            console.log(response.data);
+            setbpList(response.data)
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+
+    }
+
+    useEffect(()=>{
+        getAllPartners()
+    },[])
 
   return (
     <>
@@ -65,7 +86,7 @@ export default function BPList({navigation}) {
                     <FlatList
                         data={bpList}
                         renderItem={({item})=> <BPListItem item={item} onViewClick={()=>{
-                            // setSelectedOrder(item)
+                            setPartner(item);
                             navigation.navigate('BPView');
                         }}/>}
                     />
@@ -75,7 +96,7 @@ export default function BPList({navigation}) {
 
         </View>
 
-        {visible && <ModalBusinessPartView visible={visible} onClose={()=>{setVisible(false)}}/>}
+        {visible && <ModalBusinessPartView visible={visible} onClose={()=>{setVisible(false)}} loadAllPartners={getAllPartners}/>}
 
     
        

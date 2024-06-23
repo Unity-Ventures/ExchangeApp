@@ -1,157 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView,View ,StyleSheet, TouchableOpacity, ScrollView } from "react-native"
-import { PaperProvider, Text, TextInput } from "react-native-paper"
-import TextField from '../../common/TextField/TextField';
-import CommonButton from '../../common/CommonButton/CommonButton';
-import { MD3Colors  } from 'react-native-paper';
-import BPListItem from '../../component/BPListItem';
-import ModalBusinessPartView from '../../component/ModalBusinessPartView';
-import CustomerListItem from '../../component/CustomerListItem';
-import ModalCustomerView from '../../component/ModalCustomerView';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon1 from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import instance from '../../services/Axious';
-import ModalAddNewAccount from '../../component/ModalAddNewAccount';
+import { createStackNavigator } from '@react-navigation/stack';
+//import CustomerList from '../../component/CustomerList';
+import CustomerList from '../../component/CustomerList';
+import CustomerOrders from '../../component/CustomerOrders';
 
 export default function CustomerManage({navigation}) {
 
-    const [customerList , setCustomerList] = useState([]);
-    const [selectedCustomer, setSelectedCustomer] = useState({});
-    const [visible,setVisible] = useState(false);
-    const [addAccountvisible,setAddAccountVisible] = useState(false);
-
-    const getAllCustomers = ()=>{
-        instance.get('/customer')
-            .then(function (response){
-                setCustomerList(response.data)
-                console.log(response.data);
-            })
-            .catch(function (error){
-                console.log(error);
-            });
-    }
-
-    useEffect(()=>{
-        console.log("load");
-        getAllCustomers();
-      },[]);
+    const Stack = createStackNavigator();
+    const [selectCustomer,setSelectCustomer] = useState({});
 
   return (
+
     <>
-
-        <View style={{height:"100%" , backgroundColor:"#d5f0f5"}}>
-            <View style={{height:"12%",padding:12}}>
-
-                <View style={{marginBottom:2}}>
-                    <TouchableOpacity onPress={()=>{navigation.navigate('Dashboard')}}>
-                        <Ionicons name="return-up-back" size={30} color="black"/>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>CUSTOMERS</Text>
-                    <TouchableOpacity onPress={()=>{setVisible(true)}}>
-                        <Icon1 name="adduser" size={30} color="black"/> 
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={{height:"86%" , backgroundColor: "#ffffff", borderRadius:12, margin:"2%"}}>
-                <View style={styles.fieldContainer}>
-                    <TextField
-                        label={'Search'}
-                        //value={}
-                        //onChange={}
-                    />
-                </View>
-
-                <SafeAreaView>
-                   
-                    <FlatList
-                        data={customerList}
-                        renderItem={({item})=> 
-                            <CustomerListItem 
-                                item={item} 
-                                onViewClick={()=>{
-                                    //setSelectedOrder(item)
-                                    setVisible(true)
-                                }}
-                                onAddAccountClick={()=>{
-                                    setSelectedCustomer(item)
-                                    setAddAccountVisible(true);
-                                }}
-                            />}
-                    />
-                    
-                </SafeAreaView>
-            </View>
-
-
-        </View>
-
-        {visible && 
-            <ModalCustomerView 
-                visible={visible} 
-                onClose={()=>{setVisible(false)}}
-                loadAllCustomers={getAllCustomers}
-            />
-        }
-
-        {
-            <ModalAddNewAccount
-                visible={addAccountvisible}
-                onClose={()=>{setAddAccountVisible(false)}}
-                cusId={selectedCustomer.customerId}
-            />
-        }
-
-    
-       
-
-       
-
-        
+        <Stack.Navigator>
+            <Stack.Screen name="CustomerList" options={{ headerShown: false }}>
+                {props => <CustomerList setCustomer={(item)=>{setSelectCustomer(item)}}/>}
+            </Stack.Screen>
+            <Stack.Screen name="CustomerOrdrs" options={{ headerShown: false }}>
+                {props => <CustomerOrders customer={selectCustomer}/>}
+            </Stack.Screen>
+        </Stack.Navigator>               
     </>
+
   )
 }
-
-const styles = StyleSheet.create({
-    titleContainer: {
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'space-between',
-    },
-    title: {
-        color: '#1d86f0',
-        fontSize: 26,
-        textAlign: 'left',
-        fontFamily:'Dosis-Bold'
-    },
-    fieldName: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    fieldContainer: {
-       marginHorizontal:8
-    },
-    btn: {
-        borderRadius: 7,
-        width: 125,
-        height:50,
-        fontSize: 18,
-        textAlign:'center',
-        justifyContent:'center'
-    },
-    buttonContainer: {
-        flexDirection:'row',
-        justifyContent:'flex-end',
-        marginHorizontal:10
-    },
-    listSenderName: {
-        color: 'white',
-        fontSize: 19,
-        fontWeight: 'bold',
-    },
-});

@@ -30,13 +30,7 @@ export default function WelcomeScreen({navigation}) {
         },2000)
     }
 
-    const handleGoBack = ()=>{
-        Alert.alert("Stop","Are You Sure",[{text:"cancel",onPress:()=>null,style:'cancel'},{text:'Yes',onPress:()=>{BackHandler.exitApp()}}]);
-        return true;
-    }
-
     useEffect(()=>{
-        const backHandler = BackHandler.addEventListener("hardwareBackPress",handleGoBack);
         handleGetToken();
     },[])
 

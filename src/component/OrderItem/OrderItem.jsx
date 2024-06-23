@@ -7,7 +7,9 @@ import {Divider, Button } from 'react-native-paper';
 export default function OrderItem({order,onViewClick}) {
   
     return(
-      <>
+      <><TouchableOpacity onPress={()=>{onViewClick('view')}}>
+
+      
         <View style={{margin:8,backgroundColor:'#f7f7f7',borderRadius:7,padding:8,elevation:3}}>
           
           <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:6}}>
@@ -37,14 +39,17 @@ export default function OrderItem({order,onViewClick}) {
                 <TouchableOpacity onPress={()=>{onViewClick('view')}}>
                   <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>Details   |</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{onViewClick('asign')}}>
+                <TouchableOpacity onPress={()=>{
+                  const aa = order.status === "pending" ? "asign" :  "confirm"
+                  onViewClick(aa)
+                  }}>
                   <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {order.status === "pending" ? "Assign" : order.status === "assign" ? "Confirm" : ""}</Text>
                 </TouchableOpacity>
               </View>
         
           </View>
         </View>
-      </>
+        </TouchableOpacity></>
     )
   }
 

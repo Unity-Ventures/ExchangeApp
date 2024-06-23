@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import CommonButton from '../../common/CommonButton/CommonButton';
 import instance from '../../services/Axious';
 
-export default function ModalAddNewAccount({visible = false , onClose,cusId}) {
+export default function ModalAddNewAccount({visible = false , onClose,cusId,loadAll}) {
 
     const [name,setName] = useState('');
     const [accountNo,setAccountNo] = useState('');
@@ -31,6 +31,7 @@ export default function ModalAddNewAccount({visible = false , onClose,cusId}) {
       instance.post('/account',account)
           .then(function (response){
                 console.log("Ssuccess")
+                loadAll();
                 onClose();
           })
           .catch(function (error){

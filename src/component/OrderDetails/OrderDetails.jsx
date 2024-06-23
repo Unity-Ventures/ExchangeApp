@@ -5,17 +5,21 @@ import TextField from '../../common/TextField/TextField'
 import CommonButton from '../../common/CommonButton/CommonButton'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import DropdownList from '../../common/DropdownList'
+import instance from '../../services/Axious'
 
 export default function OrderDetails({onNext,placeOrder}) {
 
-    const [fromCurrency,setFromCurrency] = useState({});
-    const [toCurrency,setToCurrency] = useState({});
-    const [rate,setRate] = useState('300');
+    const [fromCurrency,setFromCurrency] = useState('');
+    const [toCurrency,setToCurrency] = useState('');
+    const [rate,setRate] = useState('');
+    const [isExist,setIsExist] = useState(false);
 
     const [sendAmmount,setSendAmmount] = useState('');
     const [receiveAmmount,setReceiveAmmount] = useState('');
     const [serviceCharge,setServiceCharge] = useState('');
     const [description,setDescription] = useState('');
+
+    const isValid = fromCurrency && toCurrency && isExist && sendAmmount && serviceCharge
 
     const [allCurenncy,setAllCurrency] = useState([
         { label: 'USD', value: '1' },
@@ -23,6 +27,26 @@ export default function OrderDetails({onNext,placeOrder}) {
         { label: 'LKR', value: '3' },
         { label: 'ERO', value: '4' },
     ])
+
+    const serchRate = (params)=>{
+        
+        instance.get('/rate/search',{params})
+        .then(function (response){
+
+            if(response.data === ''){
+                setRate('NoRate')
+                setIsExist(false);
+            }else{
+                setRate(response.data.rate)
+                setIsExist(true);
+            }
+            
+           
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+}
 
 
   return (
@@ -46,14 +70,29 @@ export default function OrderDetails({onNext,placeOrder}) {
                 <Text style={styles.fieldName}>Select Exchange Currency</Text>
                 <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
-                        setFromCurrency(item);
+                        setFromCurrency(item.label);
+                        if(toCurrency){
+                            const params = {
+                                sentCurrency: item.label,
+                                receiveCurrency: toCurrency
+                              };
+
+                            serchRate(params);
+                        }
                     }}/>
                     <Text style={styles.fieldName}> to </Text>
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
-                        setToCurrency(item);
+                        setToCurrency(item.label);
+                        if(fromCurrency){
+                            const params = {
+                                sentCurrency: fromCurrency,
+                                receiveCurrency: item.label                              };
+
+                            serchRate(params);
+                        }
                     }}/>
                 </View>
-                <Text style={styles.fieldName}>{1 + " " + fromCurrency.label + " = " + rate + " " + toCurrency.label}</Text>
+                <Text style={styles.fieldName}>{1 + " " + fromCurrency + " = " + rate + " " + toCurrency}</Text>
             </View>
 
                 <View style={styles.fieldContainer}>
@@ -101,8 +140,8 @@ export default function OrderDetails({onNext,placeOrder}) {
                 label={'Place Order'}
                 onPress={()=>{
                     const orderDetails = {
-                        sendCurrency : fromCurrency.label,
-                        recCurrency : toCurrency.label,
+                        sendCurrency : fromCurrency,
+                        recCurrency : toCurrency,
                         rate: rate,
                         sendAmount: sendAmmount,
                         recAmmount: receiveAmmount,
@@ -112,6 +151,7 @@ export default function OrderDetails({onNext,placeOrder}) {
 
                     placeOrder(orderDetails);
                 }}
+                disabled={!isValid}
             />
         </View>
 

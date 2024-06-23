@@ -9,6 +9,7 @@ import instance from '../../services/Axious'
 export default function RecieverDetails({onNext,selectedAccount,isReceiverNew}) {
 
     const [accountList , setAccountList] = useState([]);
+    const [accountList2 , setAccountList2] = useState([]);
     const [account,setAccount] = useState(selectedAccount);
     const [isNew , setIsNew] = useState(isReceiverNew)
 
@@ -28,12 +29,31 @@ export default function RecieverDetails({onNext,selectedAccount,isReceiverNew}) 
         instance.get('/account')
             .then(function (response){
                 setAccountList(response.data)
-                console.log(response.data);
+                setAccountList2(response.data)
             })
             .catch(function (error){
                 console.log(error);
             });
     }
+
+    function searchAccounts(orders, searchString) {
+        function searchInObject(obj, searchString) {
+          for (let key in obj) {
+            if (typeof obj[key] === 'object') {
+              if (searchInObject(obj[key], searchString)) {
+                return true;
+              }
+            } else {
+              if (String(obj[key]).toLowerCase().includes(searchString.toLowerCase())) {
+                return true;
+              }
+            }
+          }
+          return false;
+        }
+      
+        return orders.filter(order => searchInObject(order, searchString));
+      }
 
     useEffect(()=>{
            getAllAccounts();
@@ -163,8 +183,10 @@ export default function RecieverDetails({onNext,selectedAccount,isReceiverNew}) 
                     <View style={styles.fieldContainer}>
                         <TextField
                             label={'Search Reciever'}
-                            //value={}
-                            //onChange={}
+                            onChange={(val)=>{
+                                const matchedOrders = searchAccounts(accountList2, val);
+                                setAccountList(matchedOrders);
+                            }}
                         />
                     </View>
 

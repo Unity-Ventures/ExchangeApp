@@ -7,28 +7,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import { storeData } from '../../utils/storage/Storage';
 import { BackHandler } from 'react-native';
+import DropdownList from '../../common/DropdownList';
 
 export default function LoginPage({ navigation }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [role,setRole] = useState('Admin');
+    const [role,setRole] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [isLogin,setIsLogin] = useState(true);
+    const [allRoles,setAllRoles] = useState([
+        { label: 'Admin', value: '1' },
+        { label: 'Partner', value: '2' },
+        { label: 'Runner', value: '3' },
+    ])
 
     const signIn = () => {
         setLoading(true);
         setTimeout(() => {
             customerSignIn()
-            // storeData('token','1234');
-            // storeData('role','Admin');  // Partner Admin 
-            // navigation.navigate('Drawer');
             clear()
             setLoading(false);
         }, 1000);
     }
 
     const customerSignIn = () => {
+        const aa = {
+            userName: username,
+            password: password,
+            role:role
+        }
+        console.log("details",aa);
         if (username && password != null) {
             instance.post('/user/login', {
                 userName: username,
@@ -47,13 +55,19 @@ export default function LoginPage({ navigation }) {
                         }
                        
                     }else{
+                       
                         console.log("invalid");
-                        Dialog.show({
-                            type: ALERT_TYPE.WARNING,
-                            title: 'Warning',
-                            textBody: 'Invalid User Name or Password',
-                            button: 'close',
-                        })
+                        // Dialog.show({
+                        //     type: ALERT_TYPE.WARNING,
+                        //     title: 'Warning',
+                        //     textBody: 'Invalid User Name or Password',
+                        //     button: 'close',
+                        // })
+                        Toast.show({
+                            type: ALERT_TYPE.SUCCESS,
+                            title: 'Success',
+                            textBody: 'Congrats! this is toast notification success',
+                          })
                     }
                 })
                 .catch(function (error) {
@@ -125,6 +139,9 @@ export default function LoginPage({ navigation }) {
                         <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}>Password</Text>
                         <View style={styles.textView}>
                             <TextField value={password} type={'password'} style={styles.textField} onChange={(val) => setPassword(val)} />
+                        </View>
+                        <View style={styles.textView}>
+                            <DropdownList allCurrency={allRoles} onChange={(item)=>{setRole(item.label)}} placeholder='Role' />
                         </View>
                     </View>
 

@@ -3,13 +3,13 @@ import React from 'react'
 import { TextInput } from 'react-native-paper';
 
 
-export default function TextField({value,onChange , label, type, disabled}) {
+export default function TextField({value,onChange , label, type, disabled,outColor='#e1e4e6',activecolor='#bbbcbd'}) {
   return (
        <TextInput
        label={label}
        mode='outlined'
-       outlineColor='#e1e4e6'
-       activeOutlineColor='#bbbcbd'
+       outlineColor={outColor}
+       activeOutlineColor={activecolor}
        value={value}
        onChangeText={onChange}
        style={styles.styl}

@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { Text, View ,StyleSheet, TouchableOpacity} from 'react-native';
 import { Modal,Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
-import  { useState } from 'react';
+import  { useState, useMemo } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import TextField from '../../common/TextField/TextField';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import CommonButton from '../../common/CommonButton/CommonButton';
 import instance from '../../services/Axious';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import countryList from 'react-select-country-list'
+import DropdownList from '../../common/DropdownList';
 
 export default function ModalCustomerView({visible = false , onClose,loadAllCustomers}) {
 
@@ -16,7 +20,18 @@ export default function ModalCustomerView({visible = false , onClose,loadAllCust
     const [address,setaddress] = useState('');
     const [country,setcountry] = useState('');
 
-    const isValid = name && contactNo && nic && address && country;
+    const [isContactNoValid,setIsContactNoValid] = useState(false);
+
+    const [value, setValue] = useState('')
+    const options = useMemo(() => countryList().getData(), [])
+    const [allCurenncy,setAllCurrency] = useState([
+        { label: 'USD', value: '1' },
+        { label: 'CAD', value: '2' },
+        { label: 'LKR', value: '3' },
+        { label: 'ERO', value: '4' },
+    ])
+
+    const isValid = name && contactNo && nic && address && country && isContactNoValid; 
 
     const clrFields = ()=>{
       setName('');
@@ -76,7 +91,10 @@ export default function ModalCustomerView({visible = false , onClose,loadAllCust
               </View>
 
               <View style={{height:"86%" , backgroundColor: "#ffffff", borderRadius:12, margin:"2%",paddingTop:15}}>
-              <View style={styles.fieldContainer}>
+                   <KeyboardAwareScrollView keyboardShouldPersistTaps={'never'}> 
+                    
+                    
+                    <View style={styles.fieldContainer}>
                         <Text style={styles.fieldName}>Full Name</Text>
                         <TextField
                             onChange={(val)=>{setName(val)}}
@@ -95,7 +113,15 @@ export default function ModalCustomerView({visible = false , onClose,loadAllCust
                     <View style={styles.fieldContainer}>
                         <Text style={styles.fieldName}>Contact No </Text>
                         <TextField
-                            onChange={(val)=>{setContactNo(val)}}
+                        activecolor={!isContactNoValid ? 'red' : '#bbbcbd'}
+                             onChange={(val)=>{
+                                const regex = /^-?\d+(\.\d+)?$/;
+                                if(regex.test(val)){
+                                    setIsContactNoValid(true)
+                                }else{
+                                    setIsContactNoValid(false)
+                                }
+                                setContactNo(val)}}
                            // value={contactNo}
                         />
                     </View>
@@ -115,6 +141,14 @@ export default function ModalCustomerView({visible = false , onClose,loadAllCust
                            // value={country}
                         />
                     </View>
+
+                    {/* <DropdownList search allCurrency={options} onChange={(item)=>{
+                        //setToCurrency(item.label);
+                    }}/> */}
+                
+                    </KeyboardAwareScrollView> 
+
+                   
 
                     <View style={styles.fieldContainer}>
                     < CommonButton

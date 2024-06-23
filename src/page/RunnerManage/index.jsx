@@ -6,82 +6,25 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { Icon ,MD3Colors  } from 'react-native-paper';
 import BPListItem from '../../component/BPListItem';
 import RunnerListItem from '../../component/RunnerListItem';
+import { createStackNavigator } from '@react-navigation/stack';
+import RunnerList from '../../component/RunnerList';
+import RunnerView from '../../component/RunnerView';
 
-export default function RunnerManage() {
+export default function RunnerManage({navigation}) {
 
-    const [runnerList , setbpList] = useState([{name: "Prasad Indika" , ContactNo:"0777939393"},{name: "Dilusha Dishani" , ContactNo:"0777939393"},{name: "Prasad Indika" , ContactNo:"0777939393"}]);
+    const Stack = createStackNavigator();
+    const [selectRunner,setSelectRunner] = useState({});
 
   return (
     <>
-        <View style={styles.titleContainer}>
-            <Text style={styles.title}>Runners</Text>
-        </View>
-
-        <View style={styles.fieldContainer}>
-            <TextField
-                label={'Search Runner'}
-                //value={}
-                //onChange={}
-            />
-        </View>
-
-        <View style={styles.buttonContainer}>
-            < CommonButton
-                style={styles.btn}
-                label={'Add'}
-                //onPress={()=>{navigation.navigate('')}}
-            />
-        </View>
-
-        <SafeAreaView>
-            <FlatList
-                data={runnerList}
-                renderItem={({item})=> <RunnerListItem item={item} onViewClick={()=>{
-                    // setSelectedOrder(item)
-                    // setVisible(true)
-                }}/>}
-          />
-        </SafeAreaView>
-
-        
+        <Stack.Navigator>
+            <Stack.Screen name="RunnerList" options={{ headerShown: false }}>
+                {props => <RunnerList setRunner={(item)=>{setSelectRunner(item)}}/>}
+            </Stack.Screen>
+            <Stack.Screen name="RunnerView" options={{ headerShown: false }}>
+                {props => <RunnerView runner={selectRunner}/>}
+            </Stack.Screen>
+        </Stack.Navigator>               
     </>
   )
 }
-
-const styles = StyleSheet.create({
-    titleContainer: {
-       marginVertical:15
-    },
-    title: {
-        color: '#44357F',
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    fieldName: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    fieldContainer: {
-       margin:10
-    },
-    btn: {
-        borderRadius: 7,
-        width: 125,
-        height:50,
-        fontSize: 18,
-        textAlign:'center',
-        justifyContent:'center'
-    },
-    buttonContainer: {
-        flexDirection:'row',
-        justifyContent:'flex-end',
-        margin:10
-    },
-    listSenderName: {
-        color: 'white',
-        fontSize: 19,
-        fontWeight: 'bold',
-    },
-});

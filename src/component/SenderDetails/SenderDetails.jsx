@@ -9,6 +9,7 @@ import instance from '../../services/Axious'
 export default function SenderDetails({onNext,selectedClient,isClientNew}) {
 
     const [senderList , setSenderList] = useState([]);
+    const [senderList2 , setSenderList2] = useState([]);
     const [isNew , setIsNew] = useState(isClientNew)
     const [client,setClient] = useState(selectedClient);
 
@@ -25,9 +26,12 @@ export default function SenderDetails({onNext,selectedClient,isClientNew}) {
             <TouchableOpacity onPress={()=>{setClient(val)}}>
                 <View style={{marginHorizontal:10,marginTop:10,backgroundColor:'#f0eee9',padding:8,borderRadius:7}}>
             <Text style={styles.listSenderName}>{val.firstName}</Text>
-            <View style={{justifyContent:'space-between'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                 <View>
                     <Text style={styles.listSenderName}>{val.contact}</Text>
+                </View>
+                <View>
+                    <Text style={styles.listSenderName}>{val.nic}</Text>
                 </View>
             
 
@@ -41,12 +45,20 @@ export default function SenderDetails({onNext,selectedClient,isClientNew}) {
     const getAllCustomers = ()=>{
         instance.get('/customer')
             .then(function (response){
-                setSenderList(response.data)
-                console.log(response.data);
+                setSenderList(response.data);
+                setSenderList2(response.data);
             })
             .catch(function (error){
                 console.log(error);
             });
+    }
+
+    const searchSender = (search)=>{
+        console.log(search);
+        const filteredArr = senderList2.filter(obj =>
+            Object.values(obj).some(value => String(value).includes(search))
+          );
+        setSenderList(filteredArr);
     }
 
     useEffect(()=>{
@@ -122,25 +134,13 @@ export default function SenderDetails({onNext,selectedClient,isClientNew}) {
                     <View style={{marginHorizontal:8}}>
                         <TextField
                             label={'Search Sender'}
-                            //value={}
-                            //onChange={}
+                            onChange={(val)=>{
+                                searchSender(val)
+                            }}
+                           
                         />
                     </View>
 
-                    {/* <ScrollView style={{marginVertical:8}}>
-                    {senderList.map((val)=>(
-                        <View style={{marginHorizontal:10,marginTop:10,backgroundColor:'#f0eee9',padding:8,borderRadius:7}}>
-                            <Text style={styles.listSenderName}>{val.name}</Text>
-                            <View style={{justifyContent:'space-between'}}>
-                                <View>
-                                    <Text style={styles.listSenderName}>0777-576894</Text>
-                                </View>
-                            
-
-                            </View>
-                        </View>
-                    ))}
-                    </ScrollView> */}
                      <FlatList
                         data={senderList}
                         renderItem={({item})=> <ClientItem val={item}/>}

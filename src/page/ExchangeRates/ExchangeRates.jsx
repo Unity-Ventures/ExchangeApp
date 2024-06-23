@@ -15,12 +15,13 @@ import instance from '../../services/Axious';
 import ModalAddNewAccount from '../../component/ModalAddNewAccount';
 import DropdownList from '../../common/DropdownList';
 import RateItem from '../../component/RateItem';
+import ModalAddNewRate from '../../component/ModalAddNewRate';
 
 export default function ExchangeRates({navigation}) {
 
     const [visible,setVisible] = useState(false);
-    const [fromCurrency,setFromCurrency] = useState({});
-    const [toCurrency,setToCurrency] = useState({});
+    const [fromCurrency,setFromCurrency] = useState(null);
+    const [toCurrency,setToCurrency] = useState(null);
 
     const [allCurenncy,setAllCurrency] = useState([
         { label: 'USD', value: '1' },
@@ -29,18 +30,43 @@ export default function ExchangeRates({navigation}) {
         { label: 'ERO', value: '4' },
     ])
 
-    const [ratesList,setRatesList] = useState([
-        {from:"USD",to:"LKR",rate:300},
-        {from:"CAD",to:"LKR",rate:225},
-    ])
+    const [ratesList,setRatesList] = useState([])
 
+    
 
+    const serchRate = ()=>{
 
+        const params = {
+            sentCurrency: fromCurrency,
+            receiveCurrency: toCurrency
+          };
+
+        if(fromCurrency && toCurrency){
+           
+            instance.get('/rate/search',{params})
+            .then(function (response){
+
+                if(response.data === ''){
+                    setRatesList([])
+                }else{
+                    const res = response.data;
+                    const arr = []
+                    arr.push(res);
+                    setRatesList(arr)
+                }
+                
+               
+            })
+            .catch(function (error){
+                console.log(error);
+            });
+        }
+    }
 
     const getAllRates = ()=>{
-        // instance.get('/')
+        // instance.get('/rate')
         //     .then(function (response){
-        //         setRatesList(response.data)
+        //         //setRatesList(response.data)
         //         console.log(response.data);
         //     })
         //     .catch(function (error){
@@ -74,14 +100,18 @@ export default function ExchangeRates({navigation}) {
             </View>
 
             <View style={{height:"86%" , backgroundColor: "#ffffff", borderRadius:12, margin:"2%"}}>
-                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}}>
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
-                        setFromCurrency(item);
+                        setFromCurrency(item.label);
                     }}/>
-                    <Text style={styles.fieldName}> to </Text>
+                    
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
-                        setToCurrency(item);
+                        setToCurrency(item.label);
                     }}/>
+                    <TouchableOpacity onPress={serchRate}>
+                        <Ionicons name="search" size={30} color="black"/>
+                    </TouchableOpacity>
+                    
                 </View>
 
                 <SafeAreaView>
@@ -101,7 +131,10 @@ export default function ExchangeRates({navigation}) {
 
     
 
-    
+        {visible && 
+            <ModalAddNewRate visible={visible} onClose={()=>{setVisible(false)}} />
+
+        }
        
 
        

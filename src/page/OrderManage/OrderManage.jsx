@@ -3,7 +3,6 @@ import { FlatList, SafeAreaView, Text, TouchableOpacity } from 'react-native'
 import { View ,StyleSheet } from "react-native"
 import OrderItemViewModal from '../../component/OrderItemViewModal/OrderItemViewModal';
 import ModalOrderItemAssign from '../../component/ModalOrderItemAssign';
-import ModalAssignDetails from '../../component/ModalOrderAssignedDetils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -11,6 +10,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import OrdersListToday from '../../component/OrdersListToday';
 import { Button } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
+import ModalOrderConfirm from '../../component/ModalOrderConfirm';
 
 export default function OrderManage({navigation}) {
 
@@ -21,6 +21,7 @@ export default function OrderManage({navigation}) {
   const [selectedOrder, setSelectedOrder] = useState({});
 
   const onViewClick = (val,item)=>{
+    
       if(val==='view'){
         setVisible(true)
         setSelectedOrder(item)
@@ -92,14 +93,14 @@ export default function OrderManage({navigation}) {
          {assignModalVisible &&
             <ModalOrderItemAssign
               visible={assignModalVisible}
-              item={selectedOrder}
+              order={selectedOrder}
               onClose={()=>setAssignModalVisible(false)}
             />
 
          }
 
          {assignDetailsVisible && 
-           <ModalAssignDetails
+           <ModalOrderConfirm
             visible={assignDetailsVisible}
             onClose={()=>{setAssignDetailsVisible(false)}}
            />
