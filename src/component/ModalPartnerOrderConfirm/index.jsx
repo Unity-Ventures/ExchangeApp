@@ -44,23 +44,25 @@ export default function ModalPartnerOrderConfirm({visible,onClose,order}) {
             </View>
 
             <View style={{height:"84%" , backgroundColor: "#ffffff", borderRadius:12, margin:"2%"}}>
-                <View style={{}}>
+                <View style={{justifyContent:'center'}}>
+                    <View style={{flexDirection:'row',justifyContent:'center'}}>
                     <View style={styles.imgContainer}>
                         <Image 
                             source={{uri:imgUrl}}
                             style={styles.img}
                         />
                     </View>
+                    </View>
                     <View style={styles.btnContainer}>
                         <TouchableOpacity onPress={()=>{openCamera()}}>
                             <View style={styles.uploadBtn}>
-
+                                <Text style={{fontFamily:'Dosis-SemiBold',color:'#3b3a38'}}>CAM</Text>
                             </View>
                         </TouchableOpacity>
                         
                         <TouchableOpacity onPress={()=>{openGalary()}}>
                             <View style={styles.uploadBtn}>
-
+                                <Text style={{fontFamily:'Dosis-SemiBold',color:'#3b3a38'}}>GALLARY</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -70,7 +72,7 @@ export default function ModalPartnerOrderConfirm({visible,onClose,order}) {
                     </View>
                 </View>
 
-                <View style={{margin:15}}>
+                <View style={{marginHorizontal:45,marginVertical:10}}>
                     < CommonButton
                         style={styles.btn}
                         label={'Upload and Confirm'}
@@ -100,7 +102,8 @@ const styles = StyleSheet.create({
 
     imgContainer:{
         margin:15,
-        height:350,
+        height:360,
+        width:275,
         borderWidth:1,
         borderColor:'gray',
         borderRadius:8
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     },
     btnContainer:{
         marginHorizontal:15,
-        borderWidth:1,
+       
         borderColor:'gray',
         borderRadius:8,
         flexDirection:'row',
@@ -116,10 +119,12 @@ const styles = StyleSheet.create({
         padding:10
     },
     uploadBtn:{
-        height: 60,
+        height: 50,
         width:60,
-        borderWidth:1,
-        borderRadius:6
+        borderRadius:6,
+        backgroundColor:'#edece8',
+        justifyContent:'center',
+        alignItems:'center'
     },
     titleContainer: {
         display:'flex',
@@ -133,7 +138,8 @@ const styles = StyleSheet.create({
         fontFamily:'Dosis-Bold'
     },
     img:{
-        borderRadius:20,
+       
+        borderRadius:8,
         width:275,
         height:360,
         borderWidth:2

@@ -15,6 +15,8 @@ export default function CustomerOrders({customer}) {
 
     const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
+  const [order,setOrder] = useState({});
+  const [visible,setVisible] = useState(false);
  
   return (
     <>
@@ -34,7 +36,10 @@ export default function CustomerOrders({customer}) {
 
         <Tab.Navigator>
             <Tab.Screen name="Send">
-                {props => <CustomerOrderList search={'send'} customerId={customer.customerId}/>}
+                {props => <CustomerOrderList  search={'send'} customerId={customer.customerId} onViewClick={(order)=>{
+                    setOrder(order);
+                    setVisible(true);
+                }}/>}
             </Tab.Screen>
             <Tab.Screen name="Recieve">
                 {props => <CustomerOrderList search={'reciew'} customerId={customer.customerId}/>}
@@ -44,6 +49,13 @@ export default function CustomerOrders({customer}) {
                 {props => <OrdersListToday search={'ongoing'} onViewClick={(val,item)=>{onViewClick(val,item)}}/>}
             </Tab.Screen> */}
         </Tab.Navigator>
+
+        {visible && 
+         <OrderItemViewModal
+            visible={visible}
+            order={order}
+            onClose={()=>{setVisible(false)}}
+         />}
 
     </>
   )

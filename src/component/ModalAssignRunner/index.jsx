@@ -9,37 +9,40 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import instance from '../../services/Axious';
 
 
-export default function ModalAssignRunner({visible = false , onClose,order}) {
+export default function ModalAssignRunner({visible = false , onClose,order,partnerId}) {
 
-    const [runnerList , setRunnerList] = useState([
-            {name:'Indika',contact:'077775551',country:'Srilanka'},
-            {name:'Prasad',contact:'077775551',country:'Srilanka'},
-            {name:'Jagath',contact:'077775551',country:'Srilanka'},
-           
-        ]);
+    const [runnerList , setRunnerList] = useState([]);
     const [selectedRunner,setSelectedPartner] = useState({});
 
     const loadRunners = ()=>{
-        // instance.get('/runner')
-        // .then(function (response){
-        //     setRunnerList(response.data)
-        // })
+        instance.get(`/runner/get_all_runner_employee_wise/${partnerId}`)
+        .then(function (response){
+            setRunnerList(response.data)
+            //setRunnerList2(response.data)
+        })
+        .catch(function (error){
+            console.log(error);
+        });
     }
 
     const assignRunner = ()=>{
 
         const assignDetails = {
-           
+            employeeId: partnerId,
+            runnerId: selectedRunner.runnerId,
+            orderId: order.order.orderId,
+            runnerAmount: order.runnerAmount,
         }
 
-        // instance.post('/payment_details',assignDetails)
-        //         .then(function (response){
-        //             console.log("done");
-        //             instance.put(`/order/updateState/${order.orderId}`,{status:'assign'}).then(function (res){console.log("Succ");})
-        //         })
-        //         .catch(function (error){
-        //             console.log("errorrr");
-        //         })
+        
+        instance.put(`/payment_details/${order.paymentId}`,assignDetails)
+                .then(function (response){
+                    console.log("done");
+                    onClose();
+                })
+                .catch(function (error){
+                    console.log("errorrr");
+                })
     }
 
     const RunnerListItem = ({item})=>{
@@ -62,6 +65,7 @@ export default function ModalAssignRunner({visible = false , onClose,order}) {
 
     useEffect(()=>{
         loadRunners();
+        console.log(order);
     },[])
 
 
@@ -114,7 +118,7 @@ export default function ModalAssignRunner({visible = false , onClose,order}) {
                     < CommonButton
                     style={styles.btn}
                     label={'Assign'}
-                    //onPress={assignRunner}
+                    onPress={assignRunner}
                     //disabled={!isValid}
                 />
                     </View>

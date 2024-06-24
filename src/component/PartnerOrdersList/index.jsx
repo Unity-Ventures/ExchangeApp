@@ -12,66 +12,32 @@ import instance from '../../services/Axious'
 import { useFocusEffect } from '@react-navigation/native'
 import PartnerOrderItem from '../PartnerOrderItem'
 
-export default function PartnerOrderList({search,onViewClick}) {
+export default function PartnerOrderList({partnerId,search,onViewClick}) {
  
   const [selectedOrder, setSelectedOrder] = useState({});
   const [orders,setOrders] = useState([]);
 
-  const getAllOrders = ()=>{
+  const getAllOrders = async ()=>{
 
-    const responsedata = [
-        {
-            name:"Prasad",
-            referenceNo:'44444444',
-            status:'pending'
-        },
-        {
-            name:"Indika",
-            referenceNo:'555555',
-            status:'pending'
-        },
-        {
-            name:"Kasun",
-            referenceNo:'66666',
-            status:'assign'
-        },
-        {
-            name:"Praveen",
-            referenceNo:'77777',
-            status:'complete'
-        },
-        {
-            name:"Pula",
-            referenceNo:'88888',
-            status:'assign'
-        },
-    ]
-    if(search === 'new'){
-        const odrs = responsedata.filter(order => order.status === 'pending');
-        setOrders(odrs);
-    }else if(search === 'ongoing'){
-        const odrs = responsedata.filter(order => order.status === 'assign');
-        setOrders(odrs);
-    }else if(search === 'complete'){
-        const odrs = responsedata.filter(order => order.status === 'complete');
-        setOrders(odrs);
-    }else{
-        setOrders(responsedata);
-    }
+    const res = await instance.post('/user/get_user_info_by_token');
+    instance.get(`/payment_details/employee_wise/${res.data.employeeId}`).then(function (response){
+        console.log(response.data);
+        if(search === 'new'){
+            const odrs = response.data.filter(item => item.runner === null && item.order.status != 'complete');
+            setOrders(odrs);
+        }else if(search === 'ongoing'){
+            const odrs = response.data.filter(item => item.runner != null && item.order.status != 'complete');
+            setOrders(odrs);
+        }else if(search === 'complete'){
+            const odrs = response.data.filter(item => item.order.status === 'complete');
+            setOrders(odrs);
+        }else{
+            setOrders(response.data);
+         }
 
-    // instance.get('/order').then(function (response){
-    //   if(search === 'ongoing'){
-    //     const odrs = response.data.filter(order => order.status === 'assign');
-    //     setOrders(odrs);
-    //   }else if(search === 'complete'){
-    //     const odrs = response.data.filter(order => order.status === 'complete');
-    //     setOrders(odrs);
-    //   }else{
-    //     setOrders(response.data);
-    //   }
-    // }).catch(function (error){
-    //   console.log(error);
-    // })
+    }).catch(function (error){
+      console.log(error);
+    })
   }
 
 
@@ -98,7 +64,7 @@ export default function PartnerOrderList({search,onViewClick}) {
                 <FlatList
                     data={orders}
                     renderItem={({item})=> <PartnerOrderItem 
-                            order={item}
+                            item={item}
                             onViewClick={(val)=>{onViewClick(val,item)}}
                     /> }
                 />

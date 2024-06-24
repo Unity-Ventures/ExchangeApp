@@ -106,23 +106,26 @@ export default function OrderItemViewModal({visible = false , onClose,order}) {
 
                     <Divider bold={true} style={{marginTop:2,backgroundColor:'#c7c7c7',marginBottom:8}}/>
 
-                   {order.paymentDetail.employee === null ?
-                        <View style={{margin:5}}>
-                          <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
-                              <Text style={styles.middleText}>Not Assign</Text>
-                              
-                          </View>
-                        </View> 
-                     :
+                   {order.paymentDetailsGetDto.length === 0 ?
+                
                      <View style={{margin:5}}>
-                         <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
-                             <Text style={styles.middleText}>{order.paymentDetail.employee.fistName}</Text>
-                             <Text style={styles.middleText}>{order.paymentDetail.employee.contact}</Text>
-                         </View>
-                         <View style={{margin:6}}>
-                             <Text style={styles.middleText}>{order.paymentDetail.employee.country}</Text>
-                         </View>
-                     </View> 
+                     <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
+                         <Text style={styles.middleText}>Not Assign</Text>
+                         
+                     </View>
+                   </View> 
+                   :
+                   <View style={{margin:5}}>
+                   <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
+                       <Text style={styles.middleText}>{order.paymentDetailsGetDto[0].employee.fistName}</Text>
+                       <Text style={styles.middleText}>{order.paymentDetailsGetDto[0].employee.contact}</Text>
+                   </View>
+                   <View style={{margin:6}}>
+                       <Text style={styles.middleText}>{order.paymentDetailsGetDto[0].employee.country}</Text>
+                   </View>
+               </View> 
+               
+                
                    }
                 </View>
                 

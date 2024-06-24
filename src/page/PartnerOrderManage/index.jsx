@@ -15,6 +15,7 @@ import PartnerOrderList from '../../component/PartnerOrdersList';
 import ModalAssignRunner from '../../component/ModalAssignRunner';
 import ModalPartnerOrderDetails from '../../component/ModalPartnerOrderDetails';
 import ModalPartnerOrderConfirm from '../../component/ModalPartnerOrderConfirm';
+import instance from '../../services/Axious';
 
 export default function PartnerOrderManage({navigation}) {
 
@@ -23,6 +24,8 @@ export default function PartnerOrderManage({navigation}) {
   const [orderDetailsVisible, setOrderDetailsVisible] = useState(false);
   const [orderConfirmVisible, setOrderConfirmVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
+
+  const [partnerId,setPartnerId] = useState('');
 
   const onViewClick = (val,item)=>{
     
@@ -39,10 +42,16 @@ export default function PartnerOrderManage({navigation}) {
     }
 }
 
-  // useEffect(()=>{
-  //   console.log("runnnn");
-  //   return ()=>{};
-  // },[])
+function getUserInfo(){
+    instance.post('/user/get_user_info_by_token')
+            .then(function (response){
+                setPartnerId(response.data.employeeId);
+            })
+}
+
+  useEffect(()=>{
+    getUserInfo();
+  },[])
 
   // useFocusEffect(()=>{
   //   console.log("runnnn");
@@ -79,15 +88,13 @@ export default function PartnerOrderManage({navigation}) {
                 {props => <PartnerOrderList search={'all'} onViewClick={(val,item)=>{onViewClick(val,item)}}/>}
             </Tab.Screen>
 
-            {/* <Tab.Screen name="All">
-                {props => <OrdersListToday search={'all'} onViewClick={(val,item)=>{onViewClick(val,item)}}/>}
-            </Tab.Screen> */}
         </Tab.Navigator>
 
         {assignRunnerVisible && 
          <ModalAssignRunner
             visible={assignRunnerVisible}
             order={selectedOrder}
+            partnerId={partnerId}
             onClose={()=>{setAssignRunnerVisible(false)}}
          />
          }
@@ -95,7 +102,7 @@ export default function PartnerOrderManage({navigation}) {
         {orderDetailsVisible && 
             <ModalPartnerOrderDetails
                 visible={orderDetailsVisible}
-                order={selectedOrder}
+                item={selectedOrder}
                 onClose={()=>{setOrderDetailsVisible(false)}}
             />
         }

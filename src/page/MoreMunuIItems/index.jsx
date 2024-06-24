@@ -36,6 +36,12 @@ export default function MoreMenuItems({navigation}) {
                 <Text style={{fontSize:25,color:'white'}}>Reports</Text>
             </View>
         </TouchableOpacity> */}
+         <TouchableOpacity onPress={()=>{}}>
+            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',margin:10,padding:10,borderRadius:10,elevation:3}}>
+            <Iconic name="log-out" size={25} color="black" />
+                <Text style={{fontSize:20,color:'black',fontFamily:'Dosis-Bold',marginLeft:5}}> Change Password</Text>
+            </View>
+        </TouchableOpacity>
         <TouchableOpacity onPress={()=>{handleLogout()}}>
             <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',margin:10,padding:10,borderRadius:10,elevation:3}}>
             <Iconic name="log-out" size={25} color="black" />
@@ -44,17 +50,6 @@ export default function MoreMenuItems({navigation}) {
         </TouchableOpacity>
       </View>
     </>
-  //  <View>
-  //     <TouchableOpacity>
-  //         <View style={{borderRadius:8,backgroundColor:'gray',margin:'10',padding:'10'}}>
-  //             <Text style={{fontSize:'20'}}>Business Partner</Text>
-  //         </View>
-  //     </TouchableOpacity>
-  //     <TouchableOpacity>
-  //         <View style={{borderRadius:8,backgroundColor:'gray',margin:'10',padding:'10'}}>
-  //             <Text style={{fontSize:'20'}}>Business Partner</Text>
-  //         </View>
-  //     </TouchableOpacity>
-  //  </View>
+
   )
 }

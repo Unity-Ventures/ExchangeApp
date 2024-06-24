@@ -65,10 +65,8 @@ export default function OrderDetails({onNext,placeOrder}) {
 
         <View style={{height:"83%"}}>
         <>
-               
-            <View style={styles.fieldContainer}>
-                <Text style={styles.fieldName}>Select Exchange Currency</Text>
-                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+                 
+                <View style={{margin:10,display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
                         setFromCurrency(item.label);
                         if(toCurrency){
@@ -80,7 +78,7 @@ export default function OrderDetails({onNext,placeOrder}) {
                             serchRate(params);
                         }
                     }}/>
-                    <Text style={styles.fieldName}> to </Text>
+                    <Text style={styles.fieldName}> To </Text>
                     <DropdownList allCurrency={allCurenncy} onChange={(item)=>{
                         setToCurrency(item.label);
                         if(fromCurrency){
@@ -92,8 +90,12 @@ export default function OrderDetails({onNext,placeOrder}) {
                         }
                     }}/>
                 </View>
-                <Text style={styles.fieldName}>{1 + " " + fromCurrency + " = " + rate + " " + toCurrency}</Text>
-            </View>
+
+                <View style={{flexDirection:'row',marginHorizontal:15,justifyContent:'flex-end'}}>
+                    <Text style={styles.fieldName}>{1 + " " + fromCurrency + " = " + rate + " " + toCurrency}</Text>
+                </View>
+                
+        
 
                 <View style={styles.fieldContainer}>
                     <Text style={styles.fieldName}>Amount</Text>
@@ -115,22 +117,24 @@ export default function OrderDetails({onNext,placeOrder}) {
                 </View>
 
                 <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldName}>Total Payble amount</Text>
-                    <Text style={styles.fieldName}>00.00</Text>
-                </View>
-
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldName}>Reciever Amount</Text>
-                    <Text style={styles.fieldName}>{receiveAmmount}</Text>
-                </View>
-
-                <View style={styles.fieldContainer}>
                     <Text style={styles.fieldName}>Description</Text>
                     <TextField
                         //value={}
                         onChange={(val)=> setDescription(val)}
                     />
                 </View>
+
+                <View style={{marginTop:10,marginHorizontal:15,flexDirection:'row',justifyContent:'space-between'}}>
+                    <Text style={styles.fieldName}>Total Payble Amount</Text>
+                    <Text style={styles.fieldName}>{Number(sendAmmount) + Number(serviceCharge) + " " + fromCurrency}</Text>
+                </View>
+
+                <View style={{marginTop:10,marginHorizontal:15,flexDirection:'row',justifyContent:'space-between'}}>
+                    <Text style={styles.fieldName}>Reciever Amount</Text>
+                    <Text style={styles.fieldName}>{receiveAmmount + " " + toCurrency}</Text>
+                </View>
+
+                
             </>
         </View>
 
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     },
     fieldName: {
         color: '#73716a',
-        fontSize: 15,
+        fontSize: 18,
         //fontWeight: 'bold',
         fontFamily:"Dosis-Regular"
     },

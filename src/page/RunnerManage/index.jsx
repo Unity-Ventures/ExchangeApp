@@ -9,6 +9,7 @@ import RunnerListItem from '../../component/RunnerListItem';
 import { createStackNavigator } from '@react-navigation/stack';
 import RunnerList from '../../component/RunnerList';
 import RunnerView from '../../component/RunnerView';
+import instance from '../../services/Axious';
 
 export default function RunnerManage({navigation}) {
 

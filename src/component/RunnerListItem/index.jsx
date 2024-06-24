@@ -11,12 +11,12 @@ export default function RunnerListItem({item,onViewClick}) {
 
       
         <View style={{margin:8,backgroundColor:'#f7f7f7',borderRadius:7,padding:10,elevation:3}}>
-          <Text style={styles.text2}>Runner Name</Text>
+          <Text style={styles.text2}>{item.name}</Text>
           
           <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:10}}>
-            <Text style={styles.text}>Ccountry</Text>
+            <Text style={styles.text}>{item.country}</Text>
             <View style={{flexDirection:'row'}}>
-                <Text style={styles.text}>0777644582</Text>
+                <Text style={styles.text}>{item.contact}</Text>
             </View>
         </View>
 

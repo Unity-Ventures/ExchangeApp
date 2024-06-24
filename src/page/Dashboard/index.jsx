@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import TextField from '../../common/TextField/TextField'
 import { Divider } from 'react-native-paper'
 import OrderItem from '../../component/OrderItem/OrderItem'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -90,7 +89,6 @@ export default function Dashboard({navigation}) {
         const backHandler = BackHandler.addEventListener("hardwareBackPress",handleGoBack);
         getUserInfo();
         getAllOrders('new');
-        console.log("dash");
       },[])
 
   return (
@@ -123,7 +121,7 @@ export default function Dashboard({navigation}) {
 
            <View style={{flexDirection:'row',justifyContent:'space-evenly',backgroundColor:'white',borderRadius:7,paddingVertical:12,marginTop:15}}>
             <TouchableOpacity onPress={()=>{navigation.navigate('Transacations')}}>
-                <View style={{width:75,height:90,borderWidth:1,borderRadius:5,borderColor:'#c8cacc',alignItems:'center',justifyContent:'space-around'}}>
+                <View style={styles.menuItem}>
                     <View>
                         <Icon name="exchange" size={30} color="black" />
                     </View>
@@ -135,7 +133,7 @@ export default function Dashboard({navigation}) {
             </TouchableOpacity>
             
             <TouchableOpacity onPress={()=>{navigation.navigate('Customers')}}>
-                <View style={{width:75,height:90,borderWidth:1,borderRadius:5,borderColor:'#c8cacc',alignItems:'center',justifyContent:'space-around'}}>
+                <View style={styles.menuItem}>
                     <View>
                         <Icon1 name="addusergroup" size={30} color="black" />
                     </View>
@@ -146,7 +144,7 @@ export default function Dashboard({navigation}) {
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{navigation.navigate('Rates')}}>
-                <View style={{width:75,height:90,borderWidth:1,borderRadius:5,borderColor:'#c8cacc',alignItems:'center',justifyContent:'space-around'}}>
+                <View style={styles.menuItem}>
                     <View>
                         <Icon name="dollar" size={30} color="black" />
                     </View>
@@ -157,7 +155,7 @@ export default function Dashboard({navigation}) {
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{navigation.navigate("More")}}>
-                <View style={{width:75,height:90,borderWidth:1,borderRadius:5,borderColor:'#c8cacc',alignItems:'center',justifyContent:'space-around'}}>
+                <View style={styles.menuItem}>
                     <View>
                         <Icon2 name="more-horizontal" size={30} color="black" />
                     </View>
@@ -254,6 +252,15 @@ export default function Dashboard({navigation}) {
 
 
 const styles = StyleSheet.create({
+    menuItem:{
+        width:75,
+        height:90,
+        borderRadius:5,
+        borderColor:'#c8cacc',
+        alignItems:'center',
+        justifyContent:'space-around',
+        backgroundColor:'#f5f4f2'
+    },
     pressed: {
        width:100,
        paddingVertical:6,

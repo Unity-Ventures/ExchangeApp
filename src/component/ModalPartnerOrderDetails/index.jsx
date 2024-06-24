@@ -4,10 +4,10 @@ import { Modal,Button, Dialog, Portal, PaperProvider,Divider } from 'react-nativ
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-export default function ModalPartnerOrderDetails({visible = false , onClose,order}) {
+export default function ModalPartnerOrderDetails({visible = false , onClose,item}) {
 
     React.useEffect(()=>{
-        console.log(order);
+        console.log(item);
     },[])
 
     
@@ -24,8 +24,8 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
                 </View>
 
                 <View style={{flexDirection:'row',justifyContent:'space-between',marginVertical:5}}>
-                    <Text style={styles.mainText}>{"Ref No" + "  " + order.referenceNo }</Text>
-                    <Text style={styles.middleText}> {order.status === 'complete' ? "Completed" : 'Pending'} </Text>
+                    <Text style={styles.mainText}>{"Ref No" + "  " + item.order.referenceNo }</Text>
+                    <Text style={styles.middleText}> {item.order.status === 'complete' ? "Completed" : 'Pending'} </Text>
                 </View>
 
                 <Divider bold={true} style={{marginTop:8,backgroundColor:'#c7c7c7',marginBottom:8}}/>
@@ -34,7 +34,7 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
                     <View style={{flex:1}}>
                         <View>
                             <Text style={styles.text}>Order on  </Text>
-                            <Text style={styles.text}>2024-04-25  </Text>
+                            <Text style={styles.text}>{item.order.date}  </Text>
                         </View>
                         <View style={{marginTop:3}}>
                             <Text style={styles.text}>Completed on  </Text>
@@ -44,13 +44,13 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
                     </View>
 
                     <View style={{flex:1,flexDirection:'column',alignItems:'flex-end'}}>
-                        <View>
+                        {/* <View>
                             <Text style={styles.text}>Send Amount     </Text>
                             <Text style={styles.text}>1000</Text>
-                        </View>
+                        </View> */}
                         <View style={{marginTop:3}}>
-                            <Text style={styles.text}>Receive Amount</Text>
-                            <Text style={styles.text}>1000</Text>
+                            <Text style={styles.text}>Ammount</Text>
+                            <Text style={styles.text}>{item.order.receiveCurrency + " " + item.runnerAmount}</Text>
                         </View>
                     </View>
                 </View>
@@ -61,24 +61,24 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
                 <View style={{borderRadius:6,backgroundColor:'#ededed',padding:6,marginTop:10}}>
                     <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
                         <Text style={styles.middleText}>Account Details</Text>
-                        <Text style={styles.middleText}>Full Name </Text>
+                        <Text style={styles.middleText}>{item.order.account.customer.firstName} </Text>
                     </View>
 
                     <Divider bold={true} style={{marginTop:2,backgroundColor:'#c7c7c7',marginBottom:8}}/>
 
                     <View style={{margin:6}}>
-                        <Text style={styles.text}>address Contry </Text>
+                        <Text style={styles.text}>{item.order.account.customer.address + " , " + item.order.account.customer.country} </Text>
                     </View>
                     <View style={{margin:6,flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={styles.text}>Contact  </Text>
-                        <Text style={styles.text}>Nic </Text>
+                        <Text style={styles.text}>{item.order.account.customer.contact}  </Text>
+                        <Text style={styles.text}>{item.order.account.customer.nic} </Text>
                     </View>
                     <View style={{margin:6}}>
-                        <Text style={styles.text}>Account Name </Text>
+                        <Text style={styles.text}>{item.order.account.name} </Text>
                     </View>
                     <View style={{margin:6,flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={styles.text}>Bank Name </Text>
-                        <Text style={styles.text}>Account No </Text>
+                        <Text style={styles.text}>{item.order.account.bank}</Text>
+                        <Text style={styles.text}>{item.order.account.accountNo} </Text>
                     </View>
                     
 
@@ -92,10 +92,16 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
                     <Divider bold={true} style={{marginTop:2,backgroundColor:'#c7c7c7',marginBottom:8}}/>
 
                     <View style={{margin:5}}>
-                        <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
-                            <Text style={styles.text}>Runner name</Text>
-                            <Text style={styles.text}>Done </Text>
+                        {item.runner === null ?
+                            <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
+                            <Text style={styles.text}>Runner Not Assign</Text>
                         </View>
+                        :
+                        <View style={{flexDirection:'row',justifyContent:'space-between',margin:3}}>
+                            <Text style={styles.text}>{item.runner.name}</Text>
+                            <Text style={styles.text}>{item.runner.contact} </Text>
+                        </View>
+                        }
                        
                     </View>
                 </View>
@@ -117,7 +123,7 @@ export default function ModalPartnerOrderDetails({visible = false , onClose,orde
 const styles = StyleSheet.create({
     text: {
         color: '#70706e',
-        fontSize: 16,
+        fontSize: 18,
         fontFamily:"Dosis-Regular"
     },
     mainText: {

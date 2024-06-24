@@ -3,14 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-const data = [
-    { label: 'USD', value: '1' },
-    { label: 'CAD', value: '2' },
-    { label: 'LKR', value: '3' },
-    { label: 'ERO', value: '4' },
-  ];
-
-  const DropdownList = ({onChange,allCurrency,placeholder="Currency",search=false}) => {
+  const DropdownList = ({onChange,allCurrency,placeholder="Currency",search=false,width=135,margin = 5}) => {
     const [value, setValue] = useState(null);
 
     const renderItem = item => {
@@ -29,9 +22,15 @@ const data = [
       );
     };
 
+    const dynamicStyle = {
+      ...styles.dropdown,
+      width:width,
+      margin:margin
+    }
+
     return (
       <Dropdown
-        style={styles.dropdown}
+        style={dynamicStyle}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -61,11 +60,9 @@ const data = [
 
   const styles = StyleSheet.create({
     dropdown: {
-      width:135,
-      margin: 5,
       height: 50,
       backgroundColor: 'white',
-      borderRadius: 12,
+      borderRadius: 8,
       padding: 12,
       shadowColor: '#000',
       shadowOffset: {
@@ -89,15 +86,18 @@ const data = [
     textItem: {
       flex: 1,
       fontSize: 16,
-      color:'black'
+      color:'black',
+       fontFamily:'Dosis-Regular'
     },
     placeholderStyle: {
-      fontSize: 16,
-      color:'black'
+      fontSize: 18,
+      color:'black',
+       fontFamily:'Dosis-Regular'
     },
     selectedTextStyle: {
       fontSize: 16,
-      color:'black'
+      color:'black',
+      fontFamily:'Dosis-Regular'
     },
     iconStyle: {
       width: 20,
@@ -106,6 +106,7 @@ const data = [
     inputSearchStyle: {
       height: 40,
       fontSize: 16,
-      color:'black'
+      color:'black',
+      fontFamily:'Dosis-Regular'
     },
   });

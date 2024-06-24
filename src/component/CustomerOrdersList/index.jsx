@@ -19,7 +19,7 @@ export default function CustomerOrderList({search,onViewClick,customerId}) {
 
   const getAllOrders = ()=>{
     if(search === 'send'){
-        instance.get(`/order/get_all_byCustomer/${customerId}`)
+        instance.get(`/order/get_order_customer_wise/${customerId}`)
         .then(function (response){
             setOrders(response.data)
             console.log(response.data);
@@ -67,7 +67,7 @@ export default function CustomerOrderList({search,onViewClick,customerId}) {
 
                 <FlatList
                     data={orders}
-                    renderItem={({item})=><OrderItem order={item}/>}
+                    renderItem={({item})=><OrderItem onViewClick={()=>{onViewClick(item)}} order={item}/>}
                 />
 
             </View>

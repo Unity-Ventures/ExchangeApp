@@ -59,12 +59,12 @@ export default function PaymentDetailsListofPartner({search,onViewClick,partnerI
 
                 <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:10}}>
                     <View>
-                        <Text style={styles.text}>{item.order.account.name}</Text>
+                        <Text style={styles.text}>{item.order.account?.name}</Text>
                         <Text style={styles.text}>{item.order.receiveCurrency +  " " + item.runnerAmount}</Text>
                     </View>
                     <View>
-                        <Text style={styles.text}>{item.order.account.bank}</Text>
-                        <Text style={styles.text}>{item.order.account.accountNo}</Text>
+                        <Text style={styles.text}>{item.order.account?.bank}</Text>
+                        <Text style={styles.text}>{item.order.account?.accountNo}</Text>
                     </View>
                 </View>
 

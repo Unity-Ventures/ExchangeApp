@@ -24,8 +24,9 @@ export default function RunnerList({setRunner}) {
     const [visible,setVisible] = useState(false);
    
 
-    const getAllRunners = ()=>{
-        instance.get('/runner')
+    const getAllRunners = async ()=>{
+        const res = await instance.post('/user/get_user_info_by_token');
+        instance.get(`/runner/get_all_runner_employee_wise/${res.data.employeeId}`)
             .then(function (response){
                 setRunnerList(response.data)
                 setRunnerList2(response.data)

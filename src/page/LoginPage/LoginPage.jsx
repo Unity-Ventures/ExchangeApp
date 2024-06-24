@@ -91,17 +91,6 @@ export default function LoginPage({ navigation }) {
         setPassword('');
     }
 
-    // const storeData = async (response) => {
-    //     try {
-    //         await AsyncStorage.setItem('stmToken', response.data.token);
-    //         const value = await AsyncStorage.getItem('stmToken');
-    //         console.log(value);
-    //         navigation.navigate('Drawer')
-    //     } catch (e) {
-    //         console.log(e, " login failed");
-    //     }
-    // };
-
     const register = () => {
         setLoading(true);
         setTimeout(() => {
@@ -120,10 +109,10 @@ export default function LoginPage({ navigation }) {
     }
 
     return (
-        <View style={{flex:1,padding:2,justifyContent:'center',backgroundColor:'#d5f0f5'}}>
+        <View style={{flex:1,justifyContent:'center',backgroundColor:'#d5f0f5'}}>
 
             <View style={{marginBottom:25,marginLeft:20}}>
-                <Text style={{color:'black',fontSize:35,fontFamily:'Dosis-Bold'}}> Welcome to</Text>
+                <Text style={{color:'black',fontSize:35,fontFamily:'Dosis-SemiBold'}}> WELCOME</Text>
                 <Text style={{color:'#2089c9',fontSize:28,fontFamily:'Dosis-Regular'}}> Global Money Exchange</Text>
             </View>
             
@@ -131,17 +120,18 @@ export default function LoginPage({ navigation }) {
                 <View style={styles.mainView}>
 
                     <View style={styles.textFieldContainer}>
-                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}>Username</Text>
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Username</Text>
                         <View style={styles.textView}>
                             <TextField value={username} style={styles.textField} onChange={(val) => setUsername(val)} />
                         </View>
 
-                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}>Password</Text>
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Password</Text>
                         <View style={styles.textView}>
                             <TextField value={password} type={'password'} style={styles.textField} onChange={(val) => setPassword(val)} />
                         </View>
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Role</Text>
                         <View style={styles.textView}>
-                            <DropdownList allCurrency={allRoles} onChange={(item)=>{setRole(item.label)}} placeholder='Role' />
+                            <DropdownList margin={''} width={''} allCurrency={allRoles} onChange={(item)=>{setRole(item.label)}} placeholder='Select Role' />
                         </View>
                     </View>
 
@@ -151,7 +141,7 @@ export default function LoginPage({ navigation }) {
                                 buttonColor={'#A50010'}
                                 textColor={'white'}
                                 rippleColor={'#64000A'}
-                                label={'Sign In'}
+                                label={'Login'}
                                 onPress={signIn}
                         />
                     </View>
@@ -177,13 +167,7 @@ const styles = StyleSheet.create({
     },
     mainView: {
         display: "flex",
-        //justifyContent: "center",
         alignItems: "center",
-       // height: 650,
-       // backgroundColor:'red'
-    },
-    imgView: {
-
     },
     textFieldContainer: {
         width: "85%",
@@ -193,16 +177,17 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     textView: {
-        padding: 4
+       paddingVertical:4
     },
     buttonContainer: {
         marginTop: 20,
         width: "85%"
     },
     btn: {
-        borderRadius: 4,
+        borderRadius: 6,
         width: 325,
         fontSize: 18,
+        fontFamily:'Dosis-Regular'
     },
     textContainer: {
         paddingTop: 15,

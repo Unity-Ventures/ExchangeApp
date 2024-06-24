@@ -4,7 +4,7 @@ import { View ,StyleSheet } from "react-native"
 import CommonButton from '../../common/CommonButton/CommonButton';
 import {Divider, Button } from 'react-native-paper';
 
-export default function PartnerOrderItem({order,onViewClick}) {
+export default function PartnerOrderItem({item,onViewClick}) {
   
     return(
       <><TouchableOpacity onPress={()=>{onViewClick('view')}}>
@@ -13,21 +13,19 @@ export default function PartnerOrderItem({order,onViewClick}) {
         <View style={{margin:8,backgroundColor:'#f7f7f7',borderRadius:7,padding:8,elevation:3}}>
           
           <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:6}}>
-            <Text style={{fontSize:18,color:'#636363',fontFamily:'Dosis-SemiBold'}}>Ref No : {order.referenceNo}</Text>
-            <Text style={styles.text}>{order.date}</Text>
+            <Text style={{fontSize:18,color:'#636363',fontFamily:'Dosis-SemiBold'}}>Ref No : {item.order.referenceNo}</Text>
+            <Text style={styles.text}>{item.order.date}</Text>
             {/* <Text style={{fontSize:14,color:'#636363',fontWeight:'bold'}}>{order.confirmStatus === "yes" ? "Confirm" : "NotConfirm"}</Text> */}
             
           </View>
           <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:10}}>
             <View>
-                <Text style={styles.text}>Account Name</Text>
-                {/* {order.account?.customer.firstName} */}
-                <Text style={styles.text}>USD 2500</Text>
-                {/* {order.receiveCurrency + "  " + order.receiveAmount} */}
+                <Text style={styles.text}>{item.order.account?.name}</Text>
+                <Text style={styles.text}>{item.order.receiveCurrency + " " + item.runnerAmount}</Text>
             </View>
             <View>
-                <Text style={styles.text}>Bank Name</Text>
-                <Text style={styles.text}>Account No</Text>
+                <Text style={styles.text}>{item.order.account?.bank}</Text>
+                <Text style={styles.text}>{item.order.account?.accountNo}</Text>
             </View>
           </View>
 
@@ -35,21 +33,19 @@ export default function PartnerOrderItem({order,onViewClick}) {
          
           <View style={{flexDirection:'row',justifyContent:'space-between',margin:5}}>
               <View>
-                  <Text style={{fontSize:14,color:'#636363',fontFamily:'Dosis-SemiBold'}}>Assign To : Runner</Text>
+                  <Text style={{fontSize:14,color:'#636363',fontFamily:'Dosis-SemiBold'}}>{item.runner === null ? "" : item.runner.name}</Text>
               </View>
               <View style={{flexDirection:'row'}}>
-                <TouchableOpacity onPress={()=>{onViewClick('view')}}>
-                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>Details   |</Text>
-                </TouchableOpacity>
+                
                 <TouchableOpacity onPress={()=>{
                   onViewClick('assign')
                   }}>
-                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {order.status === "pending" ? "Assign"  : ""}</Text>
+                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {item.runner === null ? "Assign"  : ""}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                   onViewClick('confirm')
                   }}>
-                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {order.status === "complete" ? "" : "Confirm"}</Text>
+                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {item.order.status === "complete" ? "" : "Confirm"}</Text>
                 </TouchableOpacity>
               </View>
         

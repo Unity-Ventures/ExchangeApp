@@ -47,12 +47,12 @@ export default function BPView({partner}) {
             </View>
         </View>
        <Tab.Navigator>
-            <Tab.Screen name='Ongoing Tran.' >
+            <Tab.Screen name='Ongoing' >
                 {props => <PaymentDetailsListofPartner search='ongoing' partnerId={partner.employeeId} onViewClick={(orderId)=>{
                     getOrder(orderId)
                 }}/>}
             </Tab.Screen>
-            <Tab.Screen name='Trans History' >
+            <Tab.Screen name='Completed' >
                 {props => <PaymentDetailsListofPartner search='complete' partnerId={partner.employeeId} onViewClick={(orderId)=>{
                     getOrder(orderId)
                 }} />}

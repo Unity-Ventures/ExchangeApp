@@ -28,7 +28,7 @@ export default function OrdersListToday({search,onViewClick}) {
         setOrdersSerch(odrs);
       }else{
         setOrders(response.data);
-        setOrdersSerch(odrs);
+        setOrdersSerch(response.data);
       }
     }).catch(function (error){
       console.log(error);

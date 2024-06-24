@@ -33,17 +33,14 @@ export default function OrderItem({order,onViewClick}) {
          
           <View style={{flexDirection:'row',justifyContent:'space-between',margin:5}}>
               <View>
-                  <Text style={{fontSize:14,color:'#636363',fontFamily:'Dosis-SemiBold'}}>Assign To : someone</Text>
+                  <Text style={{fontSize:14,color:'#636363',fontFamily:'Dosis-SemiBold'}}>{order.paymentDetailsGetDto[0]?.employee.fistName}</Text>
               </View>
               <View style={{flexDirection:'row'}}>
-                <TouchableOpacity onPress={()=>{onViewClick('view')}}>
-                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>Details   |</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                   const aa = order.status === "pending" ? "asign" :  "confirm"
                   onViewClick(aa)
                   }}>
-                  <Text style={{fontSize:14,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {order.status === "pending" ? "Assign" : order.status === "assign" ? "Confirm" : ""}</Text>
+                  <Text style={{fontSize:16,color:'#4499c7',fontFamily:'Dosis-SemiBold'}}>   {order.status === "pending" ? "Assign" : order.status === "assign" ? "Confirm" : ""}</Text>
                 </TouchableOpacity>
               </View>
         

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text } from 'react-native'
 import { View ,StyleSheet } from "react-native"
 import CommonButton from '../../common/CommonButton/CommonButton';
@@ -7,6 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextField from '../../common/TextField/TextField';
 
 export default function RateItem({item}) {
+
+  const [result,setResult] = useState('00.00');
   
     return(
       <>
@@ -33,9 +35,13 @@ export default function RateItem({item}) {
                 </View>
                 <TextField
                   label={'Ammount'}
+                  onChange={(val)=>{
+                      const res = Number(item.rate) * Number(val)
+                      setResult(res)
+                    }}
                 />
                 <View style={{margin:10,flexDirection:'row',justifyContent:'flex-end'}}>
-                  <Text style={styles.text}>25000.00</Text>
+                  <Text style={styles.text}>{result}</Text>
                 </View>
                
           

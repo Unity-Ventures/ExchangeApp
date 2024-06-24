@@ -10,6 +10,7 @@ import instance from '../../services/Axious';
 
 export default function ModalAddNewRunner({visible = false , onClose,loadAllRunners}) {
 
+    const Tabs = createMaterialTopTabNavigator();
     const [name,setName] = useState('');
     const [contactNo,setContactNo] = useState('');
     const [nic,setNic] = useState('');
@@ -17,6 +18,8 @@ export default function ModalAddNewRunner({visible = false , onClose,loadAllRunn
     const [country,setcountry] = useState('');
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
+
+    const [partnerId,setPartnerId] = useState('');
 
     const isValid = name && contactNo && nic && address && country && username && password;
 
@@ -29,6 +32,7 @@ export default function ModalAddNewRunner({visible = false , onClose,loadAllRunn
         nic: nic,
         country:country,
         userName: username,
+        employeeId:partnerId,
         password: password
       }
 
@@ -45,7 +49,18 @@ export default function ModalAddNewRunner({visible = false , onClose,loadAllRunn
 
     }
 
-    const Tabs = createMaterialTopTabNavigator();
+    function getUserInfo(){
+        instance.post('/user/get_user_info_by_token')
+                .then(function (response){
+                    setPartnerId(response.data.employeeId);
+                })
+    }
+
+    React.useEffect(()=>{
+        getUserInfo();
+      },[])
+
+    
     return (
       <Portal>
           <Modal visible={visible} onDismiss={onClose} contentContainerStyle={{backgroundColor:"#d5f0f5", padding: 4,height:"100%"}}>

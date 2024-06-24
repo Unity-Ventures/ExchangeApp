@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { getData } from '../../utils/storage/Storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BackHandler,Alert } from 'react-native';
@@ -35,8 +35,21 @@ export default function WelcomeScreen({navigation}) {
     },[])
 
   return (
-    <View>
-        <Text style={{color:'red',fontSize:40}}> Welcome</Text>
+    <View style={styles.mainView}>
+        <Image style={styles.img} source={require('../../assets/img/applogo.jpeg')}/>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+    mainView: {
+        flex: 1,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'white'
+    },
+    img:{
+        height:350,
+        width:350
+    }
+});
