@@ -5,7 +5,7 @@ export default function CommonButton({ label,onPress,style,disabled }) {
   return (
     <Button
       mode="contained-tonal"
-      buttonColor={'#44357F'}
+      buttonColor={'#0575ad'}
       textColor={'white'}
       onPress={onPress}
       style={style}

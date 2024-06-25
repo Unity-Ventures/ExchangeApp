@@ -1,17 +1,25 @@
-import { Text, View, ScrollView, Image, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, Image, StyleSheet, ImageBackground, ActivityIndicator, Alert } from 'react-native';
 import React, { useState } from 'react';
 import TextField from '../../common/TextField/TextField';
-import MainFooter from '../../component/MainFooter/MainFooter';
 import DesignButton from '../../common/CommonButton/CommonButton';
 import instance from '../../services/Axious'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-
+import { storeData } from '../../utils/storage/Storage';
+import { BackHandler } from 'react-native';
+import DropdownList from '../../common/DropdownList';
 
 export default function LoginPage({ navigation }) {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [role,setRole] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const [allRoles,setAllRoles] = useState([
+        { label: 'Admin', value: '1' },
+        { label: 'Partner', value: '2' },
+        { label: 'Runner', value: '3' },
+    ])
 
     const signIn = () => {
         setLoading(true);
@@ -23,22 +31,43 @@ export default function LoginPage({ navigation }) {
     }
 
     const customerSignIn = () => {
-        if (email && password != null) {
-            instance.post('/customer/login', {
-                userName: email,
-                password: password
+        const aa = {
+            userName: username,
+            password: password,
+            role:role
+        }
+        console.log("details",aa);
+        if (username && password != null) {
+            instance.post('/user/login', {
+                userName: username,
+                password: password,
+                role:role
             })
                 .then(function (response) {
                     console.log(response.data);
                     if (response.data.token != null) {
-                        storeData(response);
+                        storeData("token",response.data.token);
+                        storeData("role",role);
+                        if(role === 'Admin'){
+                            navigation.navigate('Drawer');
+                        }else if(role === 'Partner'){
+                            navigation.navigate('BPartner');
+                        }
+                       
                     }else{
-                        Dialog.show({
-                            type: ALERT_TYPE.WARNING,
-                            title: 'Warning',
-                            textBody: 'Invalid User Name or Password',
-                            button: 'close',
-                        })
+                       
+                        console.log("invalid");
+                        // Dialog.show({
+                        //     type: ALERT_TYPE.WARNING,
+                        //     title: 'Warning',
+                        //     textBody: 'Invalid User Name or Password',
+                        //     button: 'close',
+                        // })
+                        Toast.show({
+                            type: ALERT_TYPE.SUCCESS,
+                            title: 'Success',
+                            textBody: 'Congrats! this is toast notification success',
+                          })
                     }
                 })
                 .catch(function (error) {
@@ -47,6 +76,7 @@ export default function LoginPage({ navigation }) {
                 });
             
         } else {
+            console.log("no data");
             Dialog.show({
                 type: ALERT_TYPE.WARNING,
                 title: 'Warning',
@@ -57,20 +87,9 @@ export default function LoginPage({ navigation }) {
     }
 
     const clear = () => {
-        setEmail('');
+        setUsername('');
         setPassword('');
     }
-
-    const storeData = async (response) => {
-        try {
-            await AsyncStorage.setItem('stmToken', response.data.token);
-            const value = await AsyncStorage.getItem('stmToken');
-            console.log(value);
-            navigation.navigate('Drawer')
-        } catch (e) {
-            console.log(e, " login failed");
-        }
-    };
 
     const register = () => {
         setLoading(true);
@@ -90,52 +109,42 @@ export default function LoginPage({ navigation }) {
     }
 
     return (
-        <ScrollView>
-            <ImageBackground source={require('../../assets/img/loginCar4.jpg')} style={styles.backgroundImage}>
+        <View style={{flex:1,justifyContent:'center',backgroundColor:'#d5f0f5'}}>
 
-                <View style={styles.overlay} />
-
-                <View style={styles.topicView}>
-                    <Text style={styles.topicText}>Sign In</Text>
-                </View>
+            <View style={{marginBottom:25,marginLeft:20}}>
+                <Text style={{color:'black',fontSize:35,fontFamily:'Dosis-SemiBold'}}> WELCOME</Text>
+                <Text style={{color:'#2089c9',fontSize:28,fontFamily:'Dosis-Regular'}}> Global Money Exchange</Text>
+            </View>
+            
 
                 <View style={styles.mainView}>
 
-                    <View style={styles.imgView}>
-                        <Image source={require('../../assets/img/admin.png')} />
-                    </View>
-
                     <View style={styles.textFieldContainer}>
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Username</Text>
                         <View style={styles.textView}>
-                            <TextField label={'User Name'} value={email} style={styles.textField} onChange={(val) => setEmail(val)} />
+                            <TextField value={username} style={styles.textField} onChange={(val) => setUsername(val)} />
                         </View>
 
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Password</Text>
                         <View style={styles.textView}>
-                            <TextField label={'Password'} value={password} type={'password'} style={styles.textField} onChange={(val) => setPassword(val)} />
+                            <TextField value={password} type={'password'} style={styles.textField} onChange={(val) => setPassword(val)} />
+                        </View>
+                        <Text style={{fontSize:19,color:'black',fontFamily:'Dosis-Regular'}}> Role</Text>
+                        <View style={styles.textView}>
+                            <DropdownList margin={''} width={''} allCurrency={allRoles} onChange={(item)=>{setRole(item.label)}} placeholder='Select Role' />
                         </View>
                     </View>
 
-                    <AlertNotificationRoot>
-
-                        <View style={styles.buttonContainer} >
+                     <View style={styles.buttonContainer} >
                             <DesignButton
                                 style={styles.btn}
                                 buttonColor={'#A50010'}
                                 textColor={'white'}
                                 rippleColor={'#64000A'}
-                                label={'Sign In'}
+                                label={'Login'}
                                 onPress={signIn}
-                            />
-                        </View>
-
-                        <View style={styles.textContainer}>
-                            <Text style={styles.text} onPress={register}>Register Customer</Text>
-                            <Text style={styles.text2} onPress={back}> Back</Text>
-                        </View>
-
-
-
-                    </AlertNotificationRoot>
+                        />
+                    </View>
 
                     {loading && (
                         <View style={styles.loaderContainer}>
@@ -143,12 +152,7 @@ export default function LoginPage({ navigation }) {
                         </View>
                     )}
                 </View>
-            </ImageBackground>
-
-            <View>
-                <MainFooter />
-            </View>
-        </ScrollView>
+        </View>
     );
 }
 
@@ -163,12 +167,7 @@ const styles = StyleSheet.create({
     },
     mainView: {
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
-        height: 650,
-    },
-    imgView: {
-
     },
     textFieldContainer: {
         width: "85%",
@@ -178,16 +177,17 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     textView: {
-        padding: 4
+       paddingVertical:4
     },
     buttonContainer: {
         marginTop: 20,
         width: "85%"
     },
     btn: {
-        borderRadius: 4,
+        borderRadius: 6,
         width: 325,
         fontSize: 18,
+        fontFamily:'Dosis-Regular'
     },
     textContainer: {
         paddingTop: 15,
