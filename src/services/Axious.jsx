@@ -1,31 +1,22 @@
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getData } from '../utils/storage/Storage';
 
 
-let cachedToken = null;
 
 const instance = axios.create({
-    baseURL: 'http://192.168.8.104:8080/api',
-  
-  headers: {
-    Authorization: cachedToken ? `Bearer ${cachedToken}` : ''
-  }
+  baseURL: 'http://192.168.254.150:8080',
+  headers: {},
 });
 
-instance.interceptors.request.use(
-  async config => {
-    try {
-      const token = await AsyncStorage.getItem('stmToken');
-      cachedToken = token;
-      config.headers.Authorization = `Bearer ${cachedToken}`;
-    } catch (error) {
-
-    }
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
+instance.interceptors.request.use( async (config)=>{
+  try {
+    const tokn = await getData("token");
+    config.headers.Authorization = `Bearer ${tokn}`;
+  } catch (error) {
+    console.log("Error retriving token" , error);
   }
-);
+  return config;
 
-export default instance
+})
+
+export default instance;

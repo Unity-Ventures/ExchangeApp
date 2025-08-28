@@ -1,7 +1,6 @@
 import { Text, View, ScrollView, Image, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import TextField from '../../common/TextField/TextField';
-import MainFooter from '../../component/MainFooter/MainFooter';
 import instance from '../../services/Axious'
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 
@@ -76,7 +75,9 @@ export default function RegisterPage({ navigation }) {
 
     return (
         <ScrollView>
-            <ImageBackground source={require('../../assets/img/loginCar3.jpg')} style={styles.backgroundImage}>
+            <ImageBackground 
+                    // source={require('../../assets/img/loginCar3.jpg')} 
+                    style={styles.backgroundImage}>
 
                 <View style={styles.overlay} />
 
@@ -86,7 +87,7 @@ export default function RegisterPage({ navigation }) {
 
                 <View style={styles.mainView}>
                     <View style={styles.imgView}>
-                        <Image source={require('../../assets/img/register.png')} />
+                        {/* <Image source={require('../../assets/img/register.png')} /> */}
                     </View>
 
                     <View style={styles.textFieldContainer}>
@@ -135,10 +136,6 @@ export default function RegisterPage({ navigation }) {
                    
                 </View>
             </ImageBackground>
-
-            <View>
-                <MainFooter />
-            </View>
         </ScrollView>
     );
 }
